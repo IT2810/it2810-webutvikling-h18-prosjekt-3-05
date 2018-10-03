@@ -1,4 +1,10 @@
+node_modules/**/*
+.expo/**/*
+
 # Created by https://www.gitignore.io/api/reactnative
+
+# Expo
+.expo
 
 ### ReactNative ###
 # React Native Stack Base
