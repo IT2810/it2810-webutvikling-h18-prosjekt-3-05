@@ -12,6 +12,8 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
+import { FAB } from 'react-native-paper';
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'My Goals',
@@ -27,7 +29,12 @@ export default class HomeScreen extends React.Component {
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>Legge inn Goals knappen her</Text>
+          <FAB
+            icon="add"
+            label="New Goal"
+            onPress={() => console.log('Pressed')}
+            />
+          );
         </View>
       </View>
     );
