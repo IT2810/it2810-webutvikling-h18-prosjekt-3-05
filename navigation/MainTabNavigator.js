@@ -5,9 +5,11 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CreateGoalScreen from '../screens/CreateGoalScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+  CreateGoal: CreateGoalScreen,
 });
 
 HomeStack.navigationOptions = {

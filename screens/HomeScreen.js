@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
 
 import { FAB } from 'react-native-paper';
@@ -32,9 +31,8 @@ export default class HomeScreen extends React.Component {
           <FAB
             icon="add"
             label="New Goal"
-            onPress={() => console.log('Pressed')}
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
             />
-          );
         </View>
       </View>
     );
