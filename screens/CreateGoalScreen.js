@@ -63,14 +63,7 @@ export default class CreateGoalScreen extends React.Component {
                 onDateChange={(date) => {this.setState({deadline: date})}}
                 />
         </ScrollView>
-        /*
-        '2018-11-10'
-                            'hello',
-                            '2018-12-10',
-                            'Ola, me imo Angie',
-                            0,
-                            100);
-        */
+
         <View style={styles.button}>
           <FAB
             icon="save"
