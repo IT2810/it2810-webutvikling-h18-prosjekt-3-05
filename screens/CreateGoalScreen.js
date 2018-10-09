@@ -144,14 +144,18 @@ export default class CreateGoalScreen extends React.Component {
   }
 
   displayGoals() {
-    if(!(this.state.goals = [])){
-      this.state.goals.forEach(function (goal) {
-        goal.name;
-        console.log("Hello");
-        return <FAB icon="heart" label={goal.name} />
-      })
+    const {navigate} = this.props.navigation;
+    if(!(this.state.goals == [])){
+     return  this.state.goals.map(function(goal){
+        console.log('test');
+        return <FAB icon="heart"
+                label={goal.name}
+                onPress={() => navigate('Settings', {name: 'Hello'})
+                }
+                />
+        })
+      }
     }
-  }
 }
 
 var Goal = function (name, startDate, deadline, description, currentSteps, goalSteps) {

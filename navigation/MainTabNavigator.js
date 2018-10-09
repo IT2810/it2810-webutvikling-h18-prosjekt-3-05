@@ -10,6 +10,7 @@ import CreateGoalScreen from '../screens/CreateGoalScreen';
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   CreateGoal: CreateGoalScreen,
+  Settings: SettingsScreen,
 });
 
 HomeStack.navigationOptions = {
