@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppLoading} from 'expo';
+import { AppLoading } from 'expo';
 import uuidv1 from 'uuid/v1';
 import {
   StyleSheet,
@@ -12,8 +12,6 @@ import {
 
 import TodoList from './../components/TodoList'
 
-
-// wrapper component for TodosContainer
 export default class TodosScreen extends React.Component {
   constructor() {
     super()
@@ -24,18 +22,12 @@ export default class TodosScreen extends React.Component {
     }
   };
 
-
+//
 componentDidMount = () => {
   this.loadTodos();
 };
 
-
-componentDidMount = () => {
-  this.loadTodos();
-};
-
-
-
+//Try loading the todos, if not the error is catched and logged.
 loadTodos = async () => {
   try {
     const getTodos = await AsyncStorage.getItem('todos');
@@ -46,11 +38,13 @@ loadTodos = async () => {
   }
 };
 
-
 saveTodos = newToDos => {
   const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos));
 };
 
+/*Creates a todo-item and adds it to the TodoList.
+The todoItems textvalue is the the value that is currently in the inputfield.
+This is triggered when the user clicks "done" on the keyboard*/
 addTodo = () => {
   const { newTodoItem } = this.state;
 
@@ -65,6 +59,7 @@ addTodo = () => {
           createdAt: Date.now()
         }
       };
+      //Clears the inputfield
       const newState = {
         ...prevState,
         newTodoItem: '',
@@ -79,6 +74,8 @@ addTodo = () => {
   }
 };
 
+/*Deletes a todo-item and removes it from the TodoList.
+This is triggered when the user clicks on the x-icon (which is found in  TodoList.js)*/
 deleteTodo = id => {
   this.setState(prevState => {
     const todos = prevState.todos;
@@ -92,6 +89,8 @@ deleteTodo = id => {
   });
 };
 
+/*Changes the todo-item's state to incompleted and saves the new state
+(this is triggered by the toggle-function in TodoList.js when the circle is pressed)*/
 inCompleteTodo = id => {
   this.setState(prevState => {
     const newState = {
@@ -109,6 +108,9 @@ inCompleteTodo = id => {
   });
 };
 
+/*Changes the todo-item's state to completed and saves the new state.
+This is triggered by the toggle-function in TodoList.js when the circle is pressed.
+This again changes the isCompleted in TodoList.js to true*/
 completeTodo = id => {
   this.setState(prevState => {
     const newState = {
@@ -126,6 +128,8 @@ completeTodo = id => {
   });
 };
 
+/*Updates the todoItem.
+This is triggered when the user clicks on the checked-icon in TodoList.js */
 updateTodo = (id, textValue) => {
   this.setState(prevState => {
     const newState = {
@@ -157,18 +161,23 @@ newTodoItemController = textValue => {
     }
     return (
       <View style={styles.container}>
+        //Header
         <Text style={styles.appTitle}>Todos</Text>
+        //Container created to look like a card
         <View style={styles.card}>
+        //User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard.
         <TextInput
           style={styles.input}
           placeholder={'+ Add todo'}
+          maxLength={20}
           value={this.state.newTodoItem}
           onChangeText={this.newTodoItemController}
-          placeholderTextColor={'#999'}
+          placeholderTextColor={'#2e78b7'}
           returnKeyType={'done'}
           autoCorrect={false}
           onSubmitEditing={this.addTodo}
         />
+        //The actual toDoList.
         <ScrollView contentContainerStyle={styles.listContainer}>
           {Object.values(todos).map(todo =>
             <TodoList
@@ -187,7 +196,7 @@ newTodoItemController = textValue => {
   }
 }
 
-
+//Styling. Uses Demensions.get to get the windowsize of the device being used/showing the apps content.
 const { heigh, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({

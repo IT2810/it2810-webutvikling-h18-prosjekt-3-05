@@ -34,7 +34,6 @@ export default class HomeScreen extends React.Component {
             label="New Goal"
             onPress={() => console.log('Pressed')}
             />
-          );
         </View>
       </View>
     );

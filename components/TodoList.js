@@ -5,7 +5,8 @@ import {
       StyleSheet,
       TouchableOpacity,
       Dimensions,
-      TextInput,} from 'react-native';
+      TextInput } from 'react-native';
+import  Icon  from 'react-native-vector-icons/Entypo'
 
 class TodoList extends Component {
   constructor(props) {
@@ -22,6 +23,8 @@ class TodoList extends Component {
     }
   }
 
+/*Lets the user edit the todoItem.
+This is triggered when the pencil-icon is clicked.*/
   startEditing = () => {
     const { textValue } = this.props;
     this.setState({
@@ -29,6 +32,8 @@ class TodoList extends Component {
     });
   };
 
+/*Triggered when the checked-icon is clicked.
+Triggeres the updateTodo-function in TodoScreen.*/
   finishEditing = () => {
     const { todoValue } = this.state;
     const { id, updateTodo } = this.props;
@@ -42,7 +47,7 @@ class TodoList extends Component {
         this.setState({ todoValue: textValue });
       };
 
-
+/*Lets the user check list-items of as "completed"*/
       toggleItem = () => {
         const { isCompleted, inCompleteTodo, completeTodo, id } = this.props;
         if (isCompleted) {
@@ -59,14 +64,19 @@ class TodoList extends Component {
         return (
             <View style={styles.container}>
               <View style={styles.rowContainer}>
+              //TodoList items with (un)checked circles
+              //Circle (show a different design depending on whether the Todo-item is completed or not)
                 <TouchableOpacity onPress={this.toggleItem}>
                   <View style={[styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle]}>
                   </View>
                 </TouchableOpacity>
+                /*If the pencil-icon is clicked,the isEditing is true,
+                and the text-field turns into an input field.*/
                 {isEditing ? (
                   <TextInput
                     value={this.state.todoValue}
                     autoFocus
+                    maxLength={20}
                     style={[
                       styles.text,
                       styles.input,
@@ -78,6 +88,7 @@ class TodoList extends Component {
                     onChangeText={this.controlInput}
                     />
                   ) : (
+                    /*If isEditing is not true, the field is a normal text-field displaying the todoItem*/
                     <Text
                       style={[
                         styles.text,
@@ -89,24 +100,30 @@ class TodoList extends Component {
                 )
               }
             </View>
+            //Options for editing and deleting todoItems
+            /*If the todoItem is being edited, a check-icon will appear
+            for the user to click on when editing is finished.
+            This triggeres the finishedEditing-function */
             {isEditing ? (
               <View style={styles.buttons}>
               <TouchableOpacity onPressOut={this.finishEditing}>
                 <View style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>✅</Text>
+                  <Icon name="check" style={styles.finishedText} > </Icon>
                 </View>
               </TouchableOpacity>
               </View>
             ) : (
+              /*If the user is not editing anything, he will see a pencil and x icon,
+              each triggering different functions*/
               <View style={styles.buttons}>
               <TouchableOpacity onPressOut={this.startEditing}>
                 <View style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>✏</Text>
+                  <Icon name="edit" style={styles.editText} > </Icon>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPressOut={() => deleteTodo(id)}>
                 <View style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>❌</Text>
+                  <Icon name="cross" style={styles.deleteText} > </Icon>
                 </View>
               </TouchableOpacity>
               </View>
@@ -116,7 +133,7 @@ class TodoList extends Component {
       };
 }
 
-
+//Styling
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -149,7 +166,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-
   },
   buttons: {
     flexDirection: 'row',
@@ -158,6 +174,18 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 10,
     alignSelf: 'flex-end'
+},
+finishedText: {
+  color: '#33ff33',
+  fontSize: 25
+},
+editText: {
+  color: '#ff9900',
+  fontSize: 20
+},
+deleteText: {
+  color: 'red',
+  fontSize: 25
 },
 strikeText: {
     color: '#bbb',
