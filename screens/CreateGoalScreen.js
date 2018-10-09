@@ -26,7 +26,9 @@ export default class CreateGoalScreen extends React.Component {
       description: "",
       currentSteps: 0,
       goalSteps: 0,
+      goals: [],
       };
+    this.retrieveGoals();
   }
 
   static navigationOptions = {
@@ -63,27 +65,41 @@ export default class CreateGoalScreen extends React.Component {
                 onDateChange={(date) => {this.setState({deadline: date})}}
                 />
         </ScrollView>
-
+        <View>
+          {this.displayGoals()}
+        </View>
         <View style={styles.button}>
+        <FAB
+            icon="delete"
+            label="Clear goals"
+            onPress={() => {
+              AsyncStorage.removeItem('goals');
+              console.log("Emptied tha stuff!")
+            }}
+            />
           <FAB
             icon="save"
             label="Save Goal"
             onPress={() => {
-              var goal = {
-                          name: this.state.name,
-                          description: "bla bla",
-
-              }
-              if (this.retrieveItem('goals')!='') {
-                console.log("inne i ifen")
-                this.retrieveItem('goals')
-                .then ( ()=> {
-                  console.log("hentet fra storage")
-                })
-              } else {
-              this.storeItem('goals', goal)
-              }
-              console.log('hello')
+              var goal = new Goal(
+                          this.state.name,
+                          this.state.startDate,
+                          this.state.deadline,
+                          this.state.description,
+                          this.state.currentSteps,
+                          this.state.goalSteps);
+              this.retrieveItem('goals').then((goals) => {
+                console.log(Array.isArray(goals));
+                if(Array.isArray(goals)) {
+                  goals.push(goal);
+                  this.storeItem('goals', goals);
+                } else {
+                  var newGoals = [];
+                  newGoals.push(goal);
+                  console.log(newGoals);
+                  this.storeItem('goals', newGoals);
+                }
+              });
               this.props.navigation.navigate('Home')}}
             />
         </View>
@@ -93,7 +109,8 @@ export default class CreateGoalScreen extends React.Component {
 
   async storeItem(key, item) {
     try {
-        await AsyncStorage.setItem(key, JSON.stringify('item'));
+        var storeItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+        return storeItem;
     } catch (error) {
         // Error saving data
         console.log(error.message);
@@ -109,6 +126,31 @@ export default class CreateGoalScreen extends React.Component {
           console.log(error.message);
         }
     return
+  }
+
+  async retrieveGoals() {
+    try {
+      this.retrieveItem('goals').then((goals) => {
+        console.log(goals);
+        if(goals) {
+          this.setState({goals: goals})
+        }
+      }).catch((error) => {
+        console.log(error);
+      })
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+
+  displayGoals() {
+    if(!(this.state.goals = [])){
+      this.state.goals.forEach(function (goal) {
+        goal.name;
+        console.log("Hello");
+        return <FAB icon="heart" label={goal.name} />
+      })
+    }
   }
 }
 
