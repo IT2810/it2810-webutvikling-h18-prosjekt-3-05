@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   Image,
   Platform,
   ScrollView,
@@ -16,6 +17,8 @@ export default class CreateGoalScreen extends React.Component {
   constructor(props){
     super(props)
     const currentDate = new Date();
+    const goalsKey = 'goals';
+
     this.state = {
       startDate: moment(currentDate).format("YYYY-MM-DD").toString(),
       name: "",
@@ -25,7 +28,7 @@ export default class CreateGoalScreen extends React.Component {
       goalSteps: 0,
       };
   }
-  
+
   static navigationOptions = {
     title: 'Create Goal',
   };
@@ -60,15 +63,59 @@ export default class CreateGoalScreen extends React.Component {
                 onDateChange={(date) => {this.setState({deadline: date})}}
                 />
         </ScrollView>
+        /*
+        '2018-11-10'
+                            'hello',
+                            '2018-12-10',
+                            'Ola, me imo Angie',
+                            0,
+                            100);
+        */
         <View style={styles.button}>
           <FAB
             icon="save"
             label="Save Goal"
-            onPress={() => this.props.navigation.navigate('Home')}
+            onPress={() => {
+              var goal = {
+                          name: this.state.name,
+                          description: "bla bla",
+
+              }
+              if (this.retrieveItem('goals')!='') {
+                console.log("inne i ifen")
+                this.retrieveItem('goals')
+                .then ( ()=> {
+                  console.log("hentet fra storage")
+                })
+              } else {
+              this.storeItem('goals', goal)
+              }
+              console.log('hello')
+              this.props.navigation.navigate('Home')}}
             />
         </View>
       </View>
     );
+  }
+
+  async storeItem(key, item) {
+    try {
+        await AsyncStorage.setItem(key, JSON.stringify('item'));
+    } catch (error) {
+        // Error saving data
+        console.log(error.message);
+    }
+  }
+
+  async retrieveItem(key) {
+    try{
+          const retrievedItem =  await AsyncStorage.getItem(key);
+          const item = JSON.parse(retrievedItem);
+          return item;
+        } catch (error) {
+          console.log(error.message);
+        }
+    return
   }
 }
 
@@ -81,7 +128,7 @@ var Goal = function (name, startDate, deadline, description, currentSteps, goalS
   this.goalSteps = goalSteps;
   /* TODO: Implement later!
   this.stepsPercentage = function () {
-    
+
   }*/
 }
 
