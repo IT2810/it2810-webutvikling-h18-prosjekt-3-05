@@ -165,10 +165,13 @@ var Goal = function (name, startDate, deadline, description, currentSteps, goalS
   this.description = description;
   this.currentSteps = currentSteps;
   this.goalSteps = goalSteps;
-  /* TODO: Implement later!
   this.stepsPercentage = function () {
-
-  }*/
+    stepsPercentage = currentSteps/goalSteps;
+    if(stepsPercentage >= 1){
+      stepsPercentage = 1;
+    }
+    return stepsPercentage
+  }
 }
 
 const styles = StyleSheet.create({
