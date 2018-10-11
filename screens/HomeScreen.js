@@ -12,6 +12,8 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 import { FAB } from 'react-native-paper';
+import Pedometer from '../components/Pedometer';
+import StepCounter from '../components/Pedometer';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -24,6 +26,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
             <Text style={styles.getStartedText} >Some text here </Text>
+            <StepCounter />
           </View>
         </ScrollView>
 
