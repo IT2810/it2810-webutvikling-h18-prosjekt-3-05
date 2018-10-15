@@ -26,7 +26,6 @@ class TodoList extends Component {
 /*Lets the user edit the todoItem.
 This is triggered when the pencil-icon is clicked.*/
   startEditing = () => {
-    const { textValue } = this.props;
     this.setState({
       isEditing: true,
     });
@@ -113,8 +112,8 @@ Triggeres the updateTodo-function in TodoScreen.*/
               </TouchableOpacity>
               </View>
             ) : (
-              /*If the user is not editing anything, he will see a pencil and x icon,
-              each triggering different functions*/
+              /*If the user is not editing anything, he will see a pencil and an x icon,
+              each triggering a different function*/
               <View style={styles.buttons}>
               <TouchableOpacity onPressOut={this.startEditing}>
                 <View style={styles.buttonContainer}>

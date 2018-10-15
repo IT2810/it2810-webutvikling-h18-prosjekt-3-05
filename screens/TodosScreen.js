@@ -27,7 +27,7 @@ componentDidMount = () => {
   this.loadTodos();
 };
 
-//Try loading the todos, if not the error is catched and logged.
+//Try loading the todos, if not the error is catched and logged in the console.
 loadTodos = async () => {
   try {
     const getTodos = await AsyncStorage.getItem('todos');
@@ -43,7 +43,7 @@ saveTodos = newToDos => {
 };
 
 /*Creates a todo-item and adds it to the TodoList.
-The todoItems textvalue is the the value that is currently in the inputfield.
+The todo-Items textvalue is the the value that is currently in the inputfield.
 This is triggered when the user clicks "done" on the keyboard*/
 addTodo = () => {
   const { newTodoItem } = this.state;
@@ -196,7 +196,7 @@ newTodoItemController = textValue => {
   }
 }
 
-//Styling. Uses Demensions.get to get the windowsize of the device being used/showing the apps content.
+//Styling. Use Demensions.get to get the windowsize of the device being used/showing the apps content.
 const { heigh, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
