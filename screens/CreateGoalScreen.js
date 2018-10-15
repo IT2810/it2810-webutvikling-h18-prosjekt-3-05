@@ -17,7 +17,8 @@ export default class CreateGoalScreen extends React.Component {
   constructor(props){
     super(props)
     const currentDate = new Date();
-    const goalsKey = 'goals';
+
+    this.saveGoal = this.saveGoal.bind(this)
 
     this.state = {
       startDate: moment(currentDate).format("YYYY-MM-DD").toString(),
@@ -26,9 +27,8 @@ export default class CreateGoalScreen extends React.Component {
       description: "",
       currentSteps: 0,
       goalSteps: 0,
-      goals: [],
       };
-    this.retrieveGoals();
+    /*this.retrieveGoals();*/
   }
 
   static navigationOptions = {
@@ -65,9 +65,6 @@ export default class CreateGoalScreen extends React.Component {
                 onDateChange={(date) => {this.setState({deadline: date})}}
                 />
         </ScrollView>
-        <View>
-          {this.displayGoals()}
-        </View>
         <View style={styles.button}>
         <FAB
             icon="delete"
@@ -80,31 +77,37 @@ export default class CreateGoalScreen extends React.Component {
           <FAB
             icon="save"
             label="Save Goal"
-            onPress={() => {
-              var goal = new Goal(
-                          this.state.name,
-                          this.state.startDate,
-                          this.state.deadline,
-                          this.state.description,
-                          this.state.currentSteps,
-                          this.state.goalSteps);
-              this.retrieveItem('goals').then((goals) => {
-                console.log(Array.isArray(goals));
-                if(Array.isArray(goals)) {
-                  goals.push(goal);
-                  this.storeItem('goals', goals);
-                } else {
-                  var newGoals = [];
-                  newGoals.push(goal);
-                  console.log(newGoals);
-                  this.storeItem('goals', newGoals);
-                }
-              });
-              this.props.navigation.navigate('Home')}}
+            onPress={this.saveGoal}
             />
         </View>
       </View>
     );
+  }
+
+  saveGoal() {
+    var goal = new Goal(
+                this.state.name,
+                this.state.startDate,
+                this.state.deadline,
+                this.state.description,
+                this.state.currentSteps,
+                this.state.goalSteps);
+    this.retrieveItem('goals').then((item) => {
+      console.log(Array.isArray(item));
+      if(Array.isArray(item)) {
+        item.push(goal);
+        this.storeItem('goals', item).then(() => {
+          this.props.navigation.navigate('Home')
+        });
+      } else {
+        var newGoals = [];
+        newGoals.push(goal);
+        console.log(newGoals);
+        this.storeItem('goals', newGoals).then(() => {
+          this.props.navigation.navigate('Home')
+        });
+      }
+    });
   }
 
   async storeItem(key, item) {
@@ -117,10 +120,13 @@ export default class CreateGoalScreen extends React.Component {
     }
   }
 
+
   async retrieveItem(key) {
     try{
           const retrievedItem =  await AsyncStorage.getItem(key);
+          console.log(retrievedItem);
           const item = JSON.parse(retrievedItem);
+          console.log('Thi is retrieved item ' + item);
           return item;
         } catch (error) {
           console.log(error.message);
@@ -128,6 +134,8 @@ export default class CreateGoalScreen extends React.Component {
     return
   }
 
+
+/*
   async retrieveGoals() {
     try {
       this.retrieveItem('goals').then((goals) => {
@@ -142,7 +150,7 @@ export default class CreateGoalScreen extends React.Component {
       console.log(error.message);
     }
   }
-
+ /*
   displayGoals() {
     const {navigate} = this.props.navigation;
     if(!(this.state.goals == [])){
@@ -156,6 +164,7 @@ export default class CreateGoalScreen extends React.Component {
         })
       }
     }
+    */
 }
 
 var Goal = function (name, startDate, deadline, description, currentSteps, goalSteps) {
