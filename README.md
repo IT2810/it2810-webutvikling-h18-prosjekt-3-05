@@ -14,18 +14,20 @@ React Native har mange innebygde komponenter som er lett å ta i bruk. For exemp
 ### Why Native? (den skal mest sannsynlig slettes, har den bare for å lære noe selv og just in case)
 A native mobile app is a smartphone application that is coded in a specific programming language, such as Objective C for iOS or Java for Android operating systems. Native mobile apps provide fast performance and a high degree of reliability. They also have access to a phone's various devices, such as its camera and address book.
 
-## Third-party-libraries and Toolc
+## Third-party-libraries and Tools
 ### * [Expo](https://expo.io/)
 Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelene er at man kobler til gjennom wi-fi og slipper å bruke USB som i lokal bygging av app og at applikasjonen blir oppdatert umiddelbart etter man lagrer endringer.
 
 ### * [React Native Paper](https://callstack.github.io/react-native-paper/index.html) 
 Dette biblioteket tilbyr godt utformet Material Design-klare designkomponenter som fungerer og ser ut nesten likt både på iOS og Android. Komponenter har en universiell utforming som er intuitive for brukeren å ta i bruk og er ment å hjelpe å skape gode brukeropplevelser.  
 
+### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer)  
+Expo has an example implementation of a pedometer that uses Core Motion (iOS) and Google Fit (Android) to get the user's step count. Using this method we were able to get the step count on both operating systems, except for one issue that occurs when reloading the expo client, this error is however caused by expo not running the componentWillUnmount() function upon reload. The user will not be signed out from the GoogleApiClient and upon sign-in the error "Already managing a GoogleApiClient with id 0" will pop-up. This will not be a problem in production.  
 
 - react-navigation library why and how
 
 ## Layout
-Bruker Flexbox da den rangerer/ plasserer elemnter i forhold til hverandre. 
+Bruker Flexbox da den rangerer/ plasserer elementer i forhold til hverandre. 
 
 ## Local Storage
 

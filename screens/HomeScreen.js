@@ -9,8 +9,11 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
+
+import { FAB } from 'react-native-paper';
+import Pedometer from '../components/Pedometer';
+import StepCounter from '../components/Pedometer';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -23,11 +26,16 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
             <Text style={styles.getStartedText} >Some text here </Text>
+            <StepCounter />
           </View>
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>Legge inn Goals knappen her</Text>
+          <FAB
+            icon="add"
+            label="New Goal"
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
+            />
         </View>
       </View>
     );
