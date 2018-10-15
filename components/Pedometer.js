@@ -54,7 +54,9 @@ export default class StepCounter extends React.Component {
       }
     );
   };
-
+// This function will not run when reloading the expo client and cause an error:
+// "Already managing a GoogleApiClient with id 0"
+// This issue will only occur when using the expo client
   _unsubscribe = () => {
     this._subscription && this._subscription.remove();
     this._subscription = null;
