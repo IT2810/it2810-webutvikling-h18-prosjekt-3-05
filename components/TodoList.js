@@ -76,6 +76,7 @@ Triggeres the updateTodo-function in TodoScreen.*/
                     value={this.state.todoValue}
                     autoFocus
                     maxLength={20}
+                    maxLine={1}
                     style={[
                       styles.text,
                       styles.input,
@@ -83,7 +84,7 @@ Triggeres the updateTodo-function in TodoScreen.*/
                     ]}
                     multiline={true}
                     returnKeyType={'done'}
-                    onBlur={this.finishEditing}
+                    onSubmitEditing={this.finishEditing}
                     onChangeText={this.controlInput}
                     />
                   ) : (

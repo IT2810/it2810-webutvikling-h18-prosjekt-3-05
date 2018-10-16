@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ScrollView,
+  KeyboardAvoidingView,
   TextInput,
   Dimensions,
   AsyncStorage } from 'react-native';
@@ -17,12 +18,11 @@ export default class TodosScreen extends React.Component {
     super()
     this.state = {
       dataIsReady: false,
-      newTodoItem: "",
+      newTodoItem: this.props,
       todos: {}
     }
   };
 
-//
 componentDidMount = () => {
   this.loadTodos();
 };
