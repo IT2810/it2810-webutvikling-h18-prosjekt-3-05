@@ -15,6 +15,8 @@ it('should render corrrectly', async () => {
   await storage.setItem('todos', '{}')
   const value = await storage.getItem('todos')
   const component = renderer.create(<TodosScreen />)
+  const tree = renderer.create(<TodosScreen />).toJSON();
+  expect (tree).toMatchSnapshot();
 })
 
 //addTodo tests

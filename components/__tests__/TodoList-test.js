@@ -4,6 +4,8 @@ import renderer from 'react-test-renderer';
 
 it('should render corrrectly', () => {
   const component = renderer.create(<TodoList id={1} />)
+  const tree = renderer.create(<TodoList id={1} />).toJSON();
+  expect (tree).toMatchSnapshot();
 })
 
 it('should set isEditing to true when startEditing is called', () => {
