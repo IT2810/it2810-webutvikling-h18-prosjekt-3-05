@@ -12,9 +12,11 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
+
 import { FAB } from 'react-native-paper';
 import Pedometer from '../components/Pedometer';
 import StepCounter from '../components/Pedometer';
+import TodosScreen from './TodosScreen';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -88,19 +90,22 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-
+/***Rendering a button for each stored Goal and parsing necessary goal-parameters to TodosScreen ***/
   displayGoals() {
-    console.log('in the disp goals');
     const {navigate} = this.props.navigation;
-    console.log('just before if in disp goals');
     if(!(this.state.goals == [])){
-      console.log('just before map in disp goals');
       console.log(this.state.goals)
      return  this.state.goals.map(function(goal){
-        console.log('test');
         return <FAB icon="label"
                 label={goal.name}
-                onPress={() => navigate('ToDo', {name: 'ToDo'})
+                key = {goal.name}
+                onPress={() =>
+                  navigate('ToDo', {
+                    goal_name: goal.name,
+                    startDate: goal.startDate,
+                    deadline: goal.deadline,
+                    goalSteps: goal.goalSteps,
+                  })
                 }
                 />
         })

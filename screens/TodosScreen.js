@@ -11,11 +11,12 @@ import {
   AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-import TodoList from './../components/TodoList'
+import TodoList from './../components/TodoList';
 
 export default class TodosScreen extends React.Component {
-  constructor() {
-    super()
+
+  constructor(props) {
+    super(props)
     this.state = {
       dataIsReady: false,
       newTodoItem: this.props,
@@ -27,19 +28,23 @@ componentDidMount = () => {
   this.loadTodos();
 };
 
-//Try loading the todos, if not the error is catched and logged in the console.
+/***Getteing the name of choosen Goal(which was selected from the HomeScreen) ***/
+getGoalName = () => {
+  const navigation = this.props;
+  return s = JSON.stringify(this.props.navigation.state.params.goal_name);
+}
+
+/*** Loading todos related to the selected Goal ***/
 loadTodos = async () => {
-  try {
-    const getTodos = await AsyncStorage.getItem('todos');
-    const parsedTodos = JSON.parse(getTodos);
-    this.setState({ dataIsReady: true, todos: parsedTodos || {} });
-  } catch (err) {
-    console.log(err);
-  }
+  let key = this.getGoalName();
+  const getTodos = await AsyncStorage.getItem(key);
+  const parsedTodos = JSON.parse(getTodos);
+  this.setState({ dataIsReady: true, todos: parsedTodos || {} });
 };
 
 saveTodos = newToDos => {
-  const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos));
+  let key = this.getGoalName();
+  const saveTodos = AsyncStorage.setItem(key, JSON.stringify(newToDos));
 };
 
 /*Creates a todo-item and adds it to the TodoList.
@@ -155,12 +160,15 @@ newTodoItemController = textValue => {
 
   render() {
     const { newTodoItem, dataIsReady, todos } = this.state;
+    const s = this.getGoalName();
+    const g = s.replace(/['"]+/g, '');
 
     if (!dataIsReady) {
       return <AppLoading />;
     }
     return (
       <View style={styles.container}>
+        <Text style={styles.appTitle}> {g} </Text>
         { /* Header */ }
         <Text style={styles.appTitle}>Todos</Text>
         { /* Container created to look like a card */}
