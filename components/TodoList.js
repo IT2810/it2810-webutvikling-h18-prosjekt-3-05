@@ -154,7 +154,8 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     borderWidth: 3,
-    marginRight: 20
+    marginRight: 20,
+    marginLeft: 10
   },
   completeCircle: {
     borderColor: '#bbb'

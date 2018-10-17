@@ -6,7 +6,6 @@ import {
   Text,
   View,
   ScrollView,
-  KeyboardAvoidingView,
   TextInput,
   Dimensions,
   AsyncStorage } from 'react-native';
@@ -178,7 +177,7 @@ newTodoItemController = textValue => {
             autoCorrect={false}
             onSubmitEditing={this.addTodo}
           />
-      
+
           <KeyboardAwareScrollView viewIsInsideTabBar>
             <View>
             {Object.values(todos).map(todo =>
@@ -189,7 +188,6 @@ newTodoItemController = textValue => {
                   inCompleteTodo={this.inCompleteTodo}
                   completeTodo={this.completeTodo}
                   updateTodo={this.updateTodo}
-                  func={this._scrollToInput.bind(this)}
                 />
               )}
               </View>
