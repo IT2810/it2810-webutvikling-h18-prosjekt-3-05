@@ -11,9 +11,10 @@ import {
   Dimensions,
   AsyncStorage } from 'react-native';
 
-import TodoList from './../components/TodoList'
+import TodoList from './../components/TodoList';
 
 export default class TodosScreen extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -21,10 +22,7 @@ export default class TodosScreen extends React.Component {
       newTodoItem: this.props,
       todos: {}
     }
-
   };
-
-
 
 componentDidMount = () => {
   this.loadTodos();
@@ -32,8 +30,12 @@ componentDidMount = () => {
 
 //Try loading the todos, if not the error is catched and logged in the console.
 loadTodos = async () => {
+  const navigation = this.props;
+  const key = this.props.navigation.state;
+  const s = JSON.stringify(key.params.goal_key);
+  let todo_key = s;
   try {
-    const getTodos = await AsyncStorage.getItem('todos');
+    const getTodos = await AsyncStorage.getItem(todo_key);
     const parsedTodos = JSON.parse(getTodos);
     this.setState({ dataIsReady: true, todos: parsedTodos || {} });
   } catch (err) {
@@ -42,7 +44,11 @@ loadTodos = async () => {
 };
 
 saveTodos = newToDos => {
-  const saveTodos = AsyncStorage.setItem('todos', JSON.stringify(newToDos));
+  const navigation = this.props;
+  const key = this.props.navigation.state;
+  const s = JSON.stringify(key.params.goal_key);
+  let todo_key = s;
+  const saveTodos = AsyncStorage.setItem(todo_key, JSON.stringify(newToDos));
 };
 
 /*Creates a todo-item and adds it to the TodoList.
@@ -158,9 +164,9 @@ newTodoItemController = textValue => {
 
   render() {
     const { newTodoItem, dataIsReady, todos } = this.state;
-    const {navigation} = this.props;
-    const key = this.props.navigation.state;
     console.log('TiS iS tHe KeY tHaT wAs PaSsEd FrOm the HomeScreen. And I want to make it work, plis! ' + JSON.stringify(key));
+    const navigation = this.props;
+    const key = this.props.navigation.state;
     const s = JSON.stringify(key.params.goal_key);
     const g = s.replace(/['"]+/g, '');
 
@@ -170,9 +176,7 @@ newTodoItemController = textValue => {
     return (
       <View style={styles.container}>
         //Header
-
         <Text style={styles.appTitle}> {g} </Text>
-
         //Container created to look like a card
         <View style={styles.card}>
         //User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard.

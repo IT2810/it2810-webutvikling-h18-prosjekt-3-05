@@ -92,17 +92,12 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-
+/***Rendering a button for each stored Goal and parsing necessary goal-parameters to TodosScreen ***/
   displayGoals() {
-    console.log('in the disp goals');
     const {navigate} = this.props.navigation;
-    console.log('just before if in disp goals');
     if(!(this.state.goals == [])){
-      console.log('just before map in disp goals');
       console.log(this.state.goals)
      return  this.state.goals.map(function(goal){
-        console.log('test');
-        console.log(goal.name);
         return <FAB icon="label"
                 label={goal.name}
                 onPress={() =>
@@ -110,9 +105,7 @@ export default class HomeScreen extends React.Component {
                     goal_key: goal.name,
                     startDate: goal.startDate,
                     deadline: goal.deadline,
-                    currentSteps: goal.currentSteps,
                     goalSteps: goal.goalSteps,
-
                   })
                 }
                 />
