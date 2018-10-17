@@ -6,12 +6,13 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import CreateGoalScreen from '../screens/CreateGoalScreen';
+import TodosScreen from '../screens/TodosScreen';
 
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   CreateGoal: CreateGoalScreen,
-  Settings: SettingsScreen,
+  ToDo: TodosScreen,
 });
 
 HomeStack.navigationOptions = {

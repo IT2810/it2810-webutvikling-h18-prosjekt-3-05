@@ -37,11 +37,6 @@ export default class HomeScreen extends React.Component {
     this.retrieveGoals();
   }
 
-
-
-
-  
-
   render() {
     return (
       <View style={styles.container}>
@@ -107,7 +102,7 @@ export default class HomeScreen extends React.Component {
         console.log('test');
         return <FAB icon="label"
                 label={goal.name}
-                onPress={() => navigate('Settings', {name: 'Hello'})
+                onPress={() => navigate('ToDo', {name: 'ToDo'})
                 }
                 />
         })
