@@ -12,9 +12,11 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
+
 import { FAB } from 'react-native-paper';
 import Pedometer from '../components/Pedometer';
 import StepCounter from '../components/Pedometer';
+import TodosScreen from './TodosScreen';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -100,9 +102,18 @@ export default class HomeScreen extends React.Component {
       console.log(this.state.goals)
      return  this.state.goals.map(function(goal){
         console.log('test');
+        console.log(goal.name);
         return <FAB icon="label"
                 label={goal.name}
-                onPress={() => navigate('ToDo', {name: 'ToDo'})
+                onPress={() =>
+                  navigate('ToDo', {
+                    goal_key: goal.name,
+                    startDate: goal.startDate,
+                    deadline: goal.deadline,
+                    currentSteps: goal.currentSteps,
+                    goalSteps: goal.goalSteps,
+
+                  })
                 }
                 />
         })

@@ -14,14 +14,17 @@ import {
 import TodoList from './../components/TodoList'
 
 export default class TodosScreen extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       dataIsReady: false,
       newTodoItem: this.props,
       todos: {}
     }
+
   };
+
+
 
 componentDidMount = () => {
   this.loadTodos();
@@ -155,6 +158,11 @@ newTodoItemController = textValue => {
 
   render() {
     const { newTodoItem, dataIsReady, todos } = this.state;
+    const {navigation} = this.props;
+    const key = this.props.navigation.state;
+    console.log('TiS iS tHe KeY tHaT wAs PaSsEd FrOm the HomeScreen. And I want to make it work, plis! ' + JSON.stringify(key));
+    const s = JSON.stringify(key.params.goal_key);
+    const g = s.replace(/['"]+/g, '');
 
     if (!dataIsReady) {
       return <AppLoading />;
@@ -162,7 +170,9 @@ newTodoItemController = textValue => {
     return (
       <View style={styles.container}>
         //Header
-        <Text style={styles.appTitle}>Todos</Text>
+
+        <Text style={styles.appTitle}> {g} </Text>
+
         //Container created to look like a card
         <View style={styles.card}>
         //User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard.

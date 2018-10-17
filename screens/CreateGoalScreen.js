@@ -14,8 +14,8 @@ import moment from 'moment';
 import { FAB, TextInput } from 'react-native-paper';
 
 export default class CreateGoalScreen extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(){
+    super()
     const currentDate = new Date();
 
     this.saveGoal = this.saveGoal.bind(this)
