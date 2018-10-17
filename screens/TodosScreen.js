@@ -6,10 +6,10 @@ import {
   Text,
   View,
   ScrollView,
-  KeyboardAvoidingView,
   TextInput,
   Dimensions,
   AsyncStorage } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import TodoList from './../components/TodoList';
 
@@ -168,40 +168,44 @@ newTodoItemController = textValue => {
     }
     return (
       <View style={styles.container}>
-        //Header
         <Text style={styles.appTitle}> {g} </Text>
-        //Container created to look like a card
+        { /* Header */ }
+        <Text style={styles.appTitle}>Todos</Text>
+        { /* Container created to look like a card */}
         <View style={styles.card}>
-        //User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard.
-        <TextInput
-          style={styles.input}
-          placeholder={'+ Add todo'}
-          maxLength={20}
-          value={this.state.newTodoItem}
-          onChangeText={this.newTodoItemController}
-          placeholderTextColor={'#2e78b7'}
-          returnKeyType={'done'}
-          autoCorrect={false}
-          onSubmitEditing={this.addTodo}
-        />
-        //The actual toDoList.
-        <ScrollView contentContainerStyle={styles.listContainer}>
-          {Object.values(todos).map(todo =>
-            <TodoList
-                key={todo.id}
-                {...todo}
-                deleteTodo={this.deleteTodo}
-                inCompleteTodo={this.inCompleteTodo}
-                completeTodo={this.completeTodo}
-                updateTodo={this.updateTodo}
-              />
-            )}
-        </ScrollView>
+          { /* User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard. */ }
+          <TextInput
+            style={styles.input}
+            placeholder={'+ Add todo'}
+            maxLength={20}
+            value={this.state.newTodoItem}
+            onChangeText={this.newTodoItemController}
+            placeholderTextColor={'#2e78b7'}
+            returnKeyType={'done'}
+            autoCorrect={false}
+            onSubmitEditing={this.addTodo}
+          />
+
+          <KeyboardAwareScrollView viewIsInsideTabBar>
+            <View>
+            {Object.values(todos).map(todo =>
+              <TodoList
+                  key={todo.id}
+                  {...todo}
+                  deleteTodo={this.deleteTodo}
+                  inCompleteTodo={this.inCompleteTodo}
+                  completeTodo={this.completeTodo}
+                  updateTodo={this.updateTodo}
+                />
+              )}
+              </View>
+          </KeyboardAwareScrollView>
         </View>
       </View>
     );
   }
 }
+
 
 //Styling. Use Demensions.get to get the windowsize of the device being used/showing the apps content.
 const { heigh, width } = Dimensions.get('window');

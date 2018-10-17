@@ -10,7 +10,7 @@ export default class StepCounter extends React.Component {
         pastSteps: 0,
         currentSteps: 0
     };
-    
+
   componentDidMount() {
     this._subscribe();
   }

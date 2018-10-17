@@ -21,11 +21,9 @@ import TodosScreen from './TodosScreen';
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
       goals: [],
     };
-
   }
 
   static navigationOptions = {
