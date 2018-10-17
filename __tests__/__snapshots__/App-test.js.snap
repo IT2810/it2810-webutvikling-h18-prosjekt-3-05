@@ -92,7 +92,6 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                     Object {
                       "flex": 1,
                       "flexDirection": "column-reverse",
-                      "overflow": "hidden",
                     },
                     Object {
                       "backgroundColor": "#000",
