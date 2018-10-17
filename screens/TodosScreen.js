@@ -28,27 +28,23 @@ componentDidMount = () => {
   this.loadTodos();
 };
 
-//Try loading the todos, if not the error is catched and logged in the console.
-loadTodos = async () => {
+/***Getteing the name of choosen Goal(which was selected from the HomeScreen) ***/
+getGoalName = () => {
   const navigation = this.props;
-  const key = this.props.navigation.state;
-  const s = JSON.stringify(key.params.goal_key);
-  let todo_key = s;
-  try {
-    const getTodos = await AsyncStorage.getItem(todo_key);
-    const parsedTodos = JSON.parse(getTodos);
-    this.setState({ dataIsReady: true, todos: parsedTodos || {} });
-  } catch (err) {
-    console.log(err);
-  }
+  return s = JSON.stringify(this.props.navigation.state.params.goal_name);
+}
+
+/*** Loading todos related to the selected Goal ***/
+loadTodos = async () => {
+  let key = this.getGoalName();
+  const getTodos = await AsyncStorage.getItem(key);
+  const parsedTodos = JSON.parse(getTodos);
+  this.setState({ dataIsReady: true, todos: parsedTodos || {} });
 };
 
 saveTodos = newToDos => {
-  const navigation = this.props;
-  const key = this.props.navigation.state;
-  const s = JSON.stringify(key.params.goal_key);
-  let todo_key = s;
-  const saveTodos = AsyncStorage.setItem(todo_key, JSON.stringify(newToDos));
+  let key = this.getGoalName();
+  const saveTodos = AsyncStorage.setItem(key, JSON.stringify(newToDos));
 };
 
 /*Creates a todo-item and adds it to the TodoList.
@@ -164,10 +160,7 @@ newTodoItemController = textValue => {
 
   render() {
     const { newTodoItem, dataIsReady, todos } = this.state;
-    console.log('TiS iS tHe KeY tHaT wAs PaSsEd FrOm the HomeScreen. And I want to make it work, plis! ' + JSON.stringify(key));
-    const navigation = this.props;
-    const key = this.props.navigation.state;
-    const s = JSON.stringify(key.params.goal_key);
+    const s = this.getGoalName();
     const g = s.replace(/['"]+/g, '');
 
     if (!dataIsReady) {

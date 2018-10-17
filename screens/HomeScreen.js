@@ -100,9 +100,10 @@ export default class HomeScreen extends React.Component {
      return  this.state.goals.map(function(goal){
         return <FAB icon="label"
                 label={goal.name}
+                key = {goal.name}
                 onPress={() =>
                   navigate('ToDo', {
-                    goal_key: goal.name,
+                    goal_name: goal.name,
                     startDate: goal.startDate,
                     deadline: goal.deadline,
                     goalSteps: goal.goalSteps,
