@@ -4,7 +4,6 @@ import { Pedometer } from "expo";
 import { StyleSheet, Text, View } from "react-native";
 
 // https://docs.expo.io/versions/v30.0.0/sdk/pedometer
-// Does not work after reload with android currently, need to implement a fix for Google connection.
 export default class StepCounter extends React.Component {
     state = {
         isPedometerAvaliable: "Check",
