@@ -1,5 +1,6 @@
-import React from 'react';
+  import React from 'react';
 import {
+  AsyncStorage,
   Image,
   Platform,
   ScrollView,
@@ -9,15 +10,37 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
 
 import { FAB } from 'react-native-paper';
+import Pedometer from '../components/Pedometer';
+import StepCounter from '../components/Pedometer';
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      goals: [],
+    };
+
+  }
+
   static navigationOptions = {
     title: 'My Goals',
   };
+
+  componentDidMount() {
+    this.props.navigation.addListener("didFocus", () => {
+      this.retrieveGoals();
+    })
+    this.retrieveGoals();
+  }
+
+
+
+
+  
 
   render() {
     return (
@@ -25,6 +48,10 @@ export default class HomeScreen extends React.Component {
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
             <Text style={styles.getStartedText} >Some text here </Text>
+            <View>
+              {this.displayGoals()}
+              <StepCounter />
+            </View>
           </View>
         </ScrollView>
 
@@ -32,12 +59,61 @@ export default class HomeScreen extends React.Component {
           <FAB
             icon="add"
             label="New Goal"
-            onPress={() => console.log('Pressed')}
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
             />
         </View>
       </View>
     );
   }
+
+  async retrieveItem(key) {
+    try{
+          console.log('THIS IS YOUR KEY' + key);
+          const retrievedItem =  await AsyncStorage.getItem(key);
+          const item = JSON.parse(retrievedItem);
+          console.log('ITEM ITEM ITEM ' + item)
+          return item;
+        } catch (error) {
+          console.log(error.message);
+        }
+    return
+  }
+
+  async retrieveGoals() {
+    try {
+      this.retrieveItem('goals').then((goals) => {
+        console.log("Here are all the" + goals);
+        if(goals) {
+          console.log('WHAT ARE GOALS? BABY, DONT HURT NO MORE! PLIS' + goals);
+          this.setState({ goals })
+        }
+      }).catch((error) => {
+        console.log(error);
+      })
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+
+
+  displayGoals() {
+    console.log('in the disp goals');
+    const {navigate} = this.props.navigation;
+    console.log('just before if in disp goals');
+    if(!(this.state.goals == [])){
+      console.log('just before map in disp goals');
+      console.log(this.state.goals)
+     return  this.state.goals.map(function(goal){
+        console.log('test');
+        return <FAB icon="label"
+                label={goal.name}
+                onPress={() => navigate('Settings', {name: 'Hello'})
+                }
+                />
+        })
+      }
+    }
+
 }
 
 const styles = StyleSheet.create({
