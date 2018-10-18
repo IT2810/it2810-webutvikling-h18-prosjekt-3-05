@@ -4,17 +4,20 @@ import {View,
         ScrollView,
         StyleSheet,
 } from 'react-native';
+import StepCounter from '../components/Pedometer';
 
-export default class SettingsScreen extends React.Component {
+export default class StepsScreen extends React.Component {
   static navigationOptions = {
-    title: 'Settings',
+    title: 'Steps'
   };
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text style={styles.containerText}> Hello. Here are your settings. </Text>
+          <Text style={styles.text}> You have walked: </Text>
+          <StepCounter />
+          <Text style={styles.text}>today</Text>
         </ScrollView>
       </View>
     );
@@ -33,5 +36,11 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
     lineHeight: 24,
     textAlign: 'center',
+  },
+  text: {
+    paddingTop: 20,
+    fontSize: 30,
+    color: '#2e78b7',
+    textAlign: 'center'
   }
 });

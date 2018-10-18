@@ -14,8 +14,6 @@ import { MonoText } from '../components/StyledText';
 
 
 import { FAB } from 'react-native-paper';
-import Pedometer from '../components/Pedometer';
-import StepCounter from '../components/Pedometer';
 import TodosScreen from './TodosScreen';
 
 export default class HomeScreen extends React.Component {
@@ -45,7 +43,6 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.getStartedText} >Some text here </Text>
             <View>
               {this.displayGoals()}
-              <StepCounter />
             </View>
           </View>
         </ScrollView>

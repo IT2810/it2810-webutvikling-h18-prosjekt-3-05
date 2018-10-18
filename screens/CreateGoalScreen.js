@@ -158,7 +158,7 @@ export default class CreateGoalScreen extends React.Component {
         console.log('test');
         return <FAB icon="heart"
                 label={goal.name}
-                onPress={() => navigate('Settings', {name: 'Hello'})
+                onPress={() => navigate('Steps', {name: 'Hello'})
                 }
                 />
         })
