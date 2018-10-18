@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ScrollView,
   View
 } from 'react-native';
 import DatePicker from "react-native-datepicker";
@@ -42,9 +43,20 @@ If the Goal-object is the first one to be added, creating a new list to store fu
                 this.state.description,
                 this.state.currentSteps,
                 this.state.goalSteps);
+    //return  this.state.goals.map(function(goal);
+
+    /*** console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOK AT THIS!!!!' + item);
+    let check = item.map(function(goal){
+      s = JSON.stringify(goal.name);
+      var names = [];
+      names.push(s);
+      return names;
+    });
+    console.log('ALL THE NAMES' + names); ***/
     this.retrieveItem('goals').then((item) => {
       if(Array.isArray(item)) {
         item.push(goal);
+
         this.storeItem('goals', item).then(() => {
           this.props.navigation.navigate('Home')
         });
@@ -71,19 +83,24 @@ If the Goal-object is the first one to be added, creating a new list to store fu
     try{
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
+      console.log('HERE ARE ALL THE ITEMS ' + item);
       return item;
     } catch (error) {
       console.error(error.message);
+      throw error;
     }
   return
   }
 
   render() {
     return (
-      <View style={styles.container}>
+
+      <View style={styles.container} >
+        <ScrollView style={styles.test} >
         <Text style={styles.inputText}>Title</Text>
         <TextInput
             mode="outlined"
+            maxLength = {35}
             style={styles.inputForm}
             placeholder = "Enter your goal title here."
             onChangeText={(text) =>
@@ -91,7 +108,8 @@ If the Goal-object is the first one to be added, creating a new list to store fu
         />
         <Text style={styles.inputText}>Description</Text>
         <TextInput
-            style={styles.inputForm}
+            style={[styles.inputForm, {height: 100}, {padding: 10}]}
+            multiline={true}
             mode="outlined"
             placeholder = "Describe your goal."
             onChangeText={(text) =>
@@ -123,6 +141,7 @@ If the Goal-object is the first one to be added, creating a new list to store fu
                   }}
               onDateChange={(date) => {this.setState({deadline: date})}}
               />
+        </ScrollView>
         <View style={styles.button}>
           <FAB
             style={styles.fab}
@@ -160,6 +179,9 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#01194f',
     },
+    test:{
+      alignSelf: 'stretch',
+    },
     inputText: {
       paddingTop: '8%',
       marginLeft: '4%',
@@ -172,7 +194,7 @@ const styles = StyleSheet.create({
       margin: 8,
       marginLeft: '3%',
       marginRight: '3%',
-      marginBottom: '3%',
+      marginBottom: '19%',
 
     },
     datePicker: {

@@ -13,7 +13,7 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 
-import { FAB } from 'react-native-paper';
+import { FAB, Divider } from 'react-native-paper';
 import Pedometer from '../components/Pedometer';
 import StepCounter from '../components/Pedometer';
 import TodosScreen from './TodosScreen';
@@ -52,8 +52,6 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.tabBarInfoContainer}>
           <FAB
-            style={styles.fab}
-            color={'#fcfcfc'}
             icon="delete"
             label="Clear goals"
             onPress={() => {
@@ -62,8 +60,6 @@ export default class HomeScreen extends React.Component {
             }}
             />
           <FAB
-            style={styles.fab}
-            color={'#fcfcfc'}
             icon="add"
             label="New Goal"
             onPress={() => this.props.navigation.navigate('CreateGoal')}
@@ -75,10 +71,8 @@ export default class HomeScreen extends React.Component {
 
   async retrieveItem(key) {
     try{
-          console.log('THIS IS YOUR KEY' + key);
           const retrievedItem =  await AsyncStorage.getItem(key);
           const item = JSON.parse(retrievedItem);
-          console.log('ITEM ITEM ITEM ' + item)
           return item;
         } catch (error) {
           console.log(error.message);
@@ -89,9 +83,7 @@ export default class HomeScreen extends React.Component {
   async retrieveGoals() {
     try {
       this.retrieveItem('goals').then((goals) => {
-        console.log("Here are all the" + goals);
         if(goals) {
-          console.log('WHAT ARE GOALS? BABY, DONT HURT NO MORE! PLIS' + goals);
           this.setState({ goals })
         }
       }).catch((error) => {
@@ -106,28 +98,30 @@ export default class HomeScreen extends React.Component {
   displayGoals() {
     const {navigate} = this.props.navigation;
     if(!(this.state.goals == [])){
-      console.log(this.state.goals)
      return  this.state.goals.map(function(goal){
-        return <FAB icon="label"
-                style={styles.fab}
-                color={'#fcfcfc'}
-                label={goal.name}
-                key = {goal.name}
-                onPress={() =>
-                  navigate('ToDo', {
-                    goal_name: goal.name,
-                    startDate: goal.startDate,
-                    deadline: goal.deadline,
-                    goalSteps: goal.goalSteps,
-                  })
-                }
-                />
+        return  <View style={styles.fab}>
+                  <FAB icon="assignment-turned-in"
+                  color={'#fcfcfc'}
+                  label={goal.name}
+                  key = {goal.name}
+                  onPress={() =>
+                    navigate('ToDo', {
+                      goal_name: goal.name,
+                      startDate: goal.startDate,
+                      deadline: goal.deadline,
+                      goalSteps: goal.goalSteps,
+                    })
+                  }
+                  />
+                  <Divider />
+                </View>
         })
       }
     }
 
 }
 
+/*** Styles ***/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -171,4 +165,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
   },
+  fab: {
+    padding: 4,
+  }
 });
