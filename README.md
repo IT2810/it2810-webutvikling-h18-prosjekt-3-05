@@ -36,13 +36,15 @@ Testing har vært en vitkig del i utviklingsprosessen av appen vår. I starten t
 ### Jest
 Jest er utviklet for å teste all JavaScript-kode inkludert React. Det blir hovedsakelig brukt til Unit- og Snapchottesting og er relativt lett å skrive i, da syntaxen ligger tett opp mot det engelske språket.
 
-Én av våre hovedutfordringer da vi testet med Jest, var at Jest ikke kan teste endringer i state og trigging av funksjoner i parent- eller childkomponenter. Fordi de fleste av våre funksjoner enten oppdaterer state eller kaller funksjoner i andre komponenter, har vi måttet benytte oss av flere mock-funksjoner. Istedenfor å teste endring i state, har vi valgt å teste at setState-funksjoner blir kalt. Det samme gjelder kall på funksjoner i andre komponenter. Også her har vi valgt å sjekke at rett funksjon blir kalt, heller enn å sjekke resultatet av funksjonskallet.
+Én av våre hovedutfordringer da vi testet med Jest, var at Jest ikke kan teste endringer i state og trigging av funksjoner i parent- eller childkomponenter. Fordi de fleste av våre funksjoner enten oppdaterer state eller kaller funksjoner i andre komponenter, har vi måttet benytte oss av flere mock-funksjoner. Istedenfor å teste endring i state, har vi valgt å teste at setState-funksjonene blir kalt. Det samme gjelder kall på funksjoner i andre komponenter. Også her har vi valgt å sjekke at rett funksjon blir kalt, heller enn å sjekke resultatet av funksjonskallet.
+
+En annen utfordring vi støtte på, var at ikke alle komponentene våre ville rendre da vi testet dem. Dette gjelder HomeScreen og CreateGoalsScreen. Fordi komponentene ikke har villet rendre i Jest, har vi heller ikke hatt mulighet til å teste funksjonene i komponentene . Vi mener likevel at vi har vist at vi har vist at vi kan bruke Jest til testing, gjennom å teste grundig i de komponentene vi har fått til å rendre. Blant annet TodosScreen og TodoList mener vi er godt og grundig testet.
 
 ### Testing on Android and iOS devices
-I utvikling av prosjektet hadde vi 2 iOS-enheter(iPhoneSE og iPhone6) og en Android(OnePlus 6).
-Siden vi alltid kjørte Expo ved utvikling av appen fikk vi testet nylig lagt funskjonalitet fortløpende.
-### Få noen randoms til å teste appen vår mot slutten og få noen tilbakemeldinger der
-Docce det her og kanskje legge til et par bilder av vår magic app.
+I utvikling av prosjektet hadde vi 2 iOS-enheter(iPhoneSE og iPhone6) og en Android(OnePlus 6). Siden vi alltid kjørte Expo ved utvikling av appen fikk vi testet nylig lagt funskjonalitet fortløpende.
+
+For å teste appen ytterligere, har vi også bedt andre studenter om å kjøre appen på sin telefon og komme med tilbakemeldinger. På denne måten fikk vi testet appen vår på flere plattformer, i tillegg til at vi oppdaget enkelte utfordringer knyttet til brukeropplevelsen, som vi har forsøkt å forbedre etter beste evne.
+
 
 ## How we used Git
 
