@@ -8,7 +8,8 @@ import {
   ScrollView,
   TextInput,
   Dimensions,
-  AsyncStorage } from 'react-native';
+  AsyncStorage,
+  Alert, } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import TodoList from './../components/TodoList';
@@ -19,7 +20,7 @@ export default class TodosScreen extends React.Component {
     super(props)
     this.state = {
       dataIsReady: false,
-      newTodoItem: this.props,
+      newTodoItem: '',
       todos: {}
     }
   };
@@ -50,9 +51,7 @@ saveTodos = newToDos => {
 /*Creates a todo-item and adds it to the TodoList.
 The todo-Items textvalue is the the value that is currently in the inputfield.
 This is triggered when the user clicks "done" on the keyboard*/
-addTodo = () => {
-  const { newTodoItem } = this.state;
-
+addTodo = (newTodoItem) => {
   if (newTodoItem !== '') {
     this.setState(prevState => {
       const ID = uuidv1();
@@ -76,6 +75,12 @@ addTodo = () => {
       this.saveTodos(newState.todos);
       return { ...newState };
     });
+  } else {
+      Alert.alert(
+        'Something went wrong :(',
+        'This field cannot be empty',
+        {cancalable: false}
+      )
   }
 };
 
@@ -183,7 +188,7 @@ newTodoItemController = textValue => {
             placeholderTextColor={'#2e78b7'}
             returnKeyType={'done'}
             autoCorrect={false}
-            onSubmitEditing={this.addTodo}
+            onSubmitEditing={() => this.addTodo(this.state.newTodoItem)}
           />
 
           <KeyboardAwareScrollView viewIsInsideTabBar>
