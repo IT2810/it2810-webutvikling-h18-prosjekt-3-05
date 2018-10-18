@@ -63,14 +63,14 @@ Triggeres the updateTodo-function in TodoScreen. ***/
     return (
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-          /*** TodoList items with (un)checked circles
-          Circle (show a different design depending on whether the Todo-item is completed or not) ***/
+          {/*** TodoList items with (un)checked circles
+          Circle (show a different design depending on whether the Todo-item is completed or not) ***/}
             <TouchableOpacity onPress={this.toggleItem}>
               <View style={[styles.circle, isCompleted ? styles.completeCircle : styles.incompleteCircle]}>
               </View>
             </TouchableOpacity>
-            /*** If the pencil-icon is clicked,the isEditing is true,
-            and the text-field turns into an input field. ***/
+            {/*** If the pencil-icon is clicked,the isEditing is true,
+            and the text-field turns into an input field. ***/}
             {isEditing ? (
               <TextInput
                 value={this.state.todoValue}
@@ -101,10 +101,10 @@ Triggeres the updateTodo-function in TodoScreen. ***/
           }
         </View>
 
-        /*** Options for editing and deleting todoItems
+        {/*** Options for editing and deleting todoItems
         If the todoItem is being edited, a check-icon will appear
         for the user to click on when editing is finished.
-        This triggeres the finishedEditing-function ***/
+        This triggeres the finishedEditing-function ***/}
         {isEditing ? (
           <View style={styles.buttons}>
           <TouchableOpacity onPressOut={this.finishEditing}>

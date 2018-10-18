@@ -79,10 +79,12 @@ addTodo = (newTodoItem) => {
     });
   } else {
       Alert.alert(
-        'Something went wrong :(',
+        'Something went wrong...   :(',
         'This field cannot be empty',
-        {cancalable: false}
+        [{text: 'OK'}],
+        {cancelable: false}
       )
+
   }
 };
 
