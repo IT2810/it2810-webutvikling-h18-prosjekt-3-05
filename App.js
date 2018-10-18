@@ -1,8 +1,22 @@
 import React from 'react';
+import color from 'color';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
-import { Provider as PaperProvider } from 'react-native-paper'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+
+  const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      accent: '#6200ee',
+      text: '#ffffff',
+      placeholder: color('#ffffff')
+      .alpha(0.54)
+      .rgb()
+      .string(),
+    }
+  };
 
 export default class App extends React.Component {
   state = {
@@ -22,7 +36,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <PaperProvider>
+          <PaperProvider theme={theme} >
             <AppNavigator />
           </ PaperProvider>
         </View>

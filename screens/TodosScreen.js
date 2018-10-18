@@ -9,7 +9,8 @@ import {
   TextInput,
   Dimensions,
   AsyncStorage,
-  Alert, } from 'react-native';
+  Alert,
+ } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import TodoList from './../components/TodoList';
@@ -29,7 +30,7 @@ componentDidMount = () => {
   this.loadTodos();
 };
 
-/***Getteing the name of choosen Goal(which was selected from the HomeScreen) ***/
+/*** Getteing the name of choosen Goal(which was selected from the HomeScreen) ***/
 getGoalName = () => {
   const navigation = this.props;
   return s = JSON.stringify(this.props.navigation.state.params.goal_name);
@@ -43,14 +44,15 @@ loadTodos = async () => {
   this.setState({ dataIsReady: true, todos: parsedTodos || {} });
 };
 
-saveTodos = newToDos => {
+saveTodos = async (newToDos) => {
   let key = this.getGoalName();
-  const saveTodos = AsyncStorage.setItem(key, JSON.stringify(newToDos));
+  await AsyncStorage.setItem(key, JSON.stringify(newToDos));
 };
 
-/*Creates a todo-item and adds it to the TodoList.
+
+/*** Creates a todo-item and adds it to the TodoList.
 The todo-Items textvalue is the the value that is currently in the inputfield.
-This is triggered when the user clicks "done" on the keyboard*/
+This is triggered when the user clicks "done" on the keyboard ***/
 addTodo = (newTodoItem) => {
   if (newTodoItem !== '') {
     this.setState(prevState => {
@@ -84,8 +86,8 @@ addTodo = (newTodoItem) => {
   }
 };
 
-/*Deletes a todo-item and removes it from the TodoList.
-This is triggered when the user clicks on the x-icon (which is found in  TodoList.js)*/
+/*** Deletes a todo-item and removes it from the TodoList.
+This is triggered when the user clicks on the x-icon (which is found in TodoList.js) ***/
 deleteTodo = id => {
   this.setState(prevState => {
     const todos = prevState.todos;
@@ -99,8 +101,8 @@ deleteTodo = id => {
   });
 };
 
-/*Changes the todo-item's state to incompleted and saves the new state
-(this is triggered by the toggle-function in TodoList.js when the circle is pressed)*/
+/*** Changes the todo-item's state to incompleted and saves the new state
+(this is triggered by the toggle-function in TodoList.js when the circle is pressed) ***/
 inCompleteTodo = id => {
   this.setState(prevState => {
     const newState = {
@@ -118,9 +120,9 @@ inCompleteTodo = id => {
   });
 };
 
-/*Changes the todo-item's state to completed and saves the new state.
+/*** Changes the todo-item's state to completed and saves the new state.
 This is triggered by the toggle-function in TodoList.js when the circle is pressed.
-This again changes the isCompleted in TodoList.js to true*/
+This again changes the isCompleted in TodoList.js to true ***/
 completeTodo = id => {
   this.setState(prevState => {
     const newState = {
@@ -138,8 +140,8 @@ completeTodo = id => {
   });
 };
 
-/*Updates the todoItem.
-This is triggered when the user clicks on the checked-icon in TodoList.js */
+/*** Updates the todoItem.
+This is triggered when the user clicks on the checked-icon in TodoList.js ***/
 updateTodo = (id, textValue) => {
   this.setState(prevState => {
     const newState = {
@@ -158,24 +160,23 @@ updateTodo = (id, textValue) => {
 };
 
 newTodoItemController = textValue => {
-  this.setState({
-    newTodoItem: textValue
-  });
+    this.setState({
+      newTodoItem: textValue
+    });
 };
 
   render() {
     const { newTodoItem, dataIsReady, todos } = this.state;
     const s = this.getGoalName();
-    const g = s.replace(/['"]+/g, '');
+    const goal = s.replace(/['"]+/g, '');
 
     if (!dataIsReady) {
       return <AppLoading />;
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.appTitle}> {g} </Text>
         { /* Header */ }
-        <Text style={styles.appTitle}>Todos</Text>
+        <Text style={styles.appTitle}> {goal} </Text>
         { /* Container created to look like a card */}
         <View style={styles.card}>
           { /* User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard. */ }
@@ -212,7 +213,8 @@ newTodoItemController = textValue => {
 }
 
 
-//Styling. Use Demensions.get to get the windowsize of the device being used/showing the apps content.
+/*** Styling.
+Use Demensions.get to get the windowsize of the device being used/showing the apps content. ***/
 const { heigh, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -243,5 +245,8 @@ card: {
   },
   listContainer: {
     alignItems: 'center'
-}
+},
+  cancel: {
+    backgroundColor: '#FF0000',
+  }
 });
