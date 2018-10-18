@@ -52,6 +52,18 @@ export default class HomeScreen extends React.Component {
 
         <View style={styles.tabBarInfoContainer}>
           <FAB
+            style={styles.fab}
+            color={'#fcfcfc'}
+            icon="delete"
+            label="Clear goals"
+            onPress={() => {
+              AsyncStorage.removeItem('goals');
+              console.log("Emptied tha stuff!")
+            }}
+            />
+          <FAB
+            style={styles.fab}
+            color={'#fcfcfc'}
             icon="add"
             label="New Goal"
             onPress={() => this.props.navigation.navigate('CreateGoal')}
@@ -97,6 +109,8 @@ export default class HomeScreen extends React.Component {
       console.log(this.state.goals)
      return  this.state.goals.map(function(goal){
         return <FAB icon="label"
+                style={styles.fab}
+                color={'#fcfcfc'}
                 label={goal.name}
                 key = {goal.name}
                 onPress={() =>
