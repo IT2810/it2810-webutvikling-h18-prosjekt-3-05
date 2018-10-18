@@ -6,9 +6,6 @@ node_modules/**/*
 # Expo
 .expo
 
-#Package-lock
-package-lock.json
-
 ### ReactNative ###
 # React Native Stack Base
 
