@@ -21,7 +21,7 @@ export default class TodosScreen extends React.Component {
     super(props)
     this.state = {
       dataIsReady: false,
-      newTodoItem: this.props,
+      newTodoItem: '',
       todos: {}
     }
   };
@@ -49,11 +49,11 @@ saveTodos = async (newToDos) => {
   await AsyncStorage.setItem(key, JSON.stringify(newToDos));
 };
 
+
 /*** Creates a todo-item and adds it to the TodoList.
-The todo-Item's textvalue is the the value that is currently in the inputfield.
+The todo-Items textvalue is the the value that is currently in the inputfield.
 This is triggered when the user clicks "done" on the keyboard ***/
-addTodo = () => {
-  const { newTodoItem } = this.state;
+addTodo = (newTodoItem) => {
   if (newTodoItem !== '') {
     this.setState(prevState => {
       const ID = uuidv1();
@@ -77,6 +77,12 @@ addTodo = () => {
       this.saveTodos(newState.todos);
       return { ...newState };
     });
+  } else {
+      Alert.alert(
+        'Something went wrong :(',
+        'This field cannot be empty',
+        {cancalable: false}
+      )
   }
 };
 
@@ -183,7 +189,7 @@ newTodoItemController = textValue => {
             placeholderTextColor={'#2e78b7'}
             returnKeyType={'done'}
             autoCorrect={false}
-            onSubmitEditing={this.addTodo}
+            onSubmitEditing={() => this.addTodo(this.state.newTodoItem)}
           />
 
           <KeyboardAwareScrollView viewIsInsideTabBar>

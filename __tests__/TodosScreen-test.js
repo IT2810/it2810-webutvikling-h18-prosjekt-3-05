@@ -10,42 +10,44 @@ const mock = () => {
   jest.mock('AsyncStorage', () => mockImpl)
 }
 
+const mockNavigation = {state: {params: {goal_name: ""}}}
+
 it('should render corrrectly', async () => {
   mock();
   await storage.setItem('todos', '{}')
   const value = await storage.getItem('todos')
-  const component = renderer.create(<TodosScreen />)
-  const tree = renderer.create(<TodosScreen />).toJSON();
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} />)
+  const tree = renderer.create(<TodosScreen navigation={mockNavigation} />).toJSON();
   expect (tree).toMatchSnapshot();
 })
 
 //addTodo tests
 it('should change state when addTodo is called', () => {
-  const component = renderer.create(<TodosScreen newTodoItem="Hei"/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
   const mockSetState = jest.fn()
   instance.setState = mockSetState;
-  instance.addTodo()
+  instance.addTodo('Hei')
   expect(mockSetState).toHaveBeenCalled()
 })
 
 it('should call saveTodo when addTodo is called', () => {
-  const component = renderer.create(<TodosScreen newTodoItem="Hei"/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
   const mockSaveTodos = jest.fn()
   instance.saveTodos = mockSaveTodos;
-  instance.addTodo()
+  instance.addTodo('Hei')
   expect(mockSaveTodos).toHaveBeenCalled()
 })
 
 
 //Delete Todo Tests
 it('should change state when deleteTodo is called', () => {
-  const component = renderer.create(<TodosScreen newTodoItem="Hei"/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} newTodoItem="Hei"/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -56,7 +58,7 @@ it('should change state when deleteTodo is called', () => {
 })
 
 it('should call saveTodos when deleteTodo is called', () => {
-  const component = renderer.create(<TodosScreen />)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} />)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -68,7 +70,7 @@ it('should call saveTodos when deleteTodo is called', () => {
 
 //inCompleteTodo tests
 it('should change state when inCompleteTodo is called', () => {
-  const component = renderer.create(<TodosScreen/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -79,7 +81,7 @@ it('should change state when inCompleteTodo is called', () => {
 })
 
 it('should call saveTodos when inCompleteTodo is called', () => {
-  const component = renderer.create(<TodosScreen />)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} />)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -91,7 +93,7 @@ it('should call saveTodos when inCompleteTodo is called', () => {
 
 //completeTodo Tests
 it('should change state when completeTodo is called', () => {
-  const component = renderer.create(<TodosScreen/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -102,7 +104,7 @@ it('should change state when completeTodo is called', () => {
 })
 
 it('should call saveTodos when completeTodo is called', () => {
-  const component = renderer.create(<TodosScreen />)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} />)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -114,7 +116,7 @@ it('should call saveTodos when completeTodo is called', () => {
 
 //updateTodo tests
 it('should change state when updateTodo is called', () => {
-  const component = renderer.create(<TodosScreen/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -125,7 +127,7 @@ it('should change state when updateTodo is called', () => {
 })
 
 it('should call saveTodos when updateTodo is called', () => {
-  const component = renderer.create(<TodosScreen />)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation} />)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -137,7 +139,7 @@ it('should call saveTodos when updateTodo is called', () => {
 
 //newTodoItemController test
 it('should change state when newTodoItemController is called', () => {
-  const component = renderer.create(<TodosScreen/>)
+  const component = renderer.create(<TodosScreen navigation={mockNavigation}/>)
   const instance = component.root.instance
   const props = component.root.props
   const state = instance.state
@@ -145,4 +147,12 @@ it('should change state when newTodoItemController is called', () => {
   instance.setState = mockSetState;
   instance.newTodoItemController()
   expect(mockSetState).toHaveBeenCalled()
+})
+
+it('should mock AsyncStorage', async () => {
+  mock();
+  await storage.setItem('todos', 'hei')
+  const value = await storage.getItem('todos')
+  expect(value).toBe('hei')
+  jest.unmock('AsyncStorage')
 })
