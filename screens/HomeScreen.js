@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
-
-
 import { FAB, Title } from 'react-native-paper';
 import Pedometer from '../components/Pedometer';
 import StepCounter from '../components/Pedometer';

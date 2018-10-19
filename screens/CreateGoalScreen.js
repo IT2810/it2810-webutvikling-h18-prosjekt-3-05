@@ -9,7 +9,7 @@ import {
   ScrollView,
   View,
   Alert,
-  Keyboard,
+  Keyboard
 } from 'react-native';
 import DatePicker from "react-native-datepicker";
 import moment from 'moment';
@@ -35,6 +35,7 @@ export default class CreateGoalScreen extends React.Component {
   static navigationOptions = {
     title: 'Create New Goal',
   };
+
 
   isGoal() {
     Alert.alert(
@@ -66,6 +67,7 @@ If the Goal-object is the first one to be added, creating a new list to store fu
                 this.state.description,
                 this.state.currentSteps,
                 this.state.goalSteps);
+
     var name = this.state.name
     /*** Validating the input to avoid goal-duplicates ***/
     this.retrieveItem('goals').then((item) => {
