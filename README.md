@@ -1,6 +1,8 @@
 # it2810-webutvikling-h18-prosjekt-3-05
 
-## Intro
+## Personal Information and Motivation Manager
+Personal Information and Motivation Manager er en app som lar en bruker opprette ulike mål, med tilhørende Todo-lister for hvordan målet kan oppnås. I tillegg følger det med en skritteller slik at brukeren kan tracke antall skritt den går. 
+
 ### Tutorials how to use this amazing app
 npm install
 npm i react-native-paper
@@ -27,7 +29,7 @@ Expo has an example implementation of a pedometer that uses Core Motion (iOS) an
 ## Layout
 Bruker Flexbox da den rangerer/ plasserer elementer i forhold til hverandre.
 
-##Storage
+## Storage
 Fordi ingenting av det vi lagrer er sensitive data, trengs det ingen kryptering, og derfor er AsyncStore flott å bruke. I tillegg er AsyncStorage laget slik at data lagres på enheten mellom hver gang appen kjører. Det vil si at hver unike bruker av appen kan lagre og hente sin egne unike data i appen. Både goals, skrittellingsinformasjon og todo-listene blir lagret med AsyncStorage. AsyncStorage er lett å bruke, og man lagrer elementer enkelt ved å bruke setItem(key,value)-funksjonen. Man kan deretter hente frem elementene igjen ved å kalle på getItem(key)-funksjonen.
 
 ## Testing
