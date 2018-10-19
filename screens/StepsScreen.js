@@ -57,7 +57,6 @@ export default class StepsScreen extends React.Component {
   async storeItem(key, item) {
     try {
         var item = await AsyncStorage.setItem(key, JSON.stringify(item));
-        console.log("Item was stored, stepsGoal: " + item);
         return item;
     } catch (error) {
         throw error;

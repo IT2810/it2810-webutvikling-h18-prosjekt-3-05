@@ -21,13 +21,16 @@ Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelen
 ### * [React Native Paper](https://callstack.github.io/react-native-paper/index.html)
 Dette biblioteket tilbyr godt utformet Material Design-klare designkomponenter som fungerer og ser ut nesten likt både på iOS og Android. Komponenter har en universiell utforming som er intuitive for brukeren å ta i bruk og er ment å hjelpe å skape gode brukeropplevelser.  
 
-### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer)  
-Expo has an example implementation of a pedometer that uses Core Motion (iOS) and Google Fit (Android) to get the user's step count. Using this method we were able to get the step count on both operating systems, except for one issue that occurs when reloading the expo client, this error is however caused by expo not running the componentWillUnmount() function upon reload. The user will not be signed out from the GoogleApiClient and upon sign-in the error "Already managing a GoogleApiClient with id 0" will pop-up. This will not be a problem in production.  
+### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer) 
+Expo har en implementasjon av et pedometer som bruker Core Motion (iOS) og Google Fit (Android) for å hente brukeren skritt. Med denne metoden fikk vi henter ut
+antall skritt brukeren har gått på begge operativsystemene, bortsett fra et problem som oppstår når man laster applikasjonen i expo på nytt, man får da en
+beskjeden "Already managing a GoogleApiClient with id 0". Dette er antagelig fordi expo ikke håndterer GoogleApiClient på samme måte en en applikasjon som kjører på
+en android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer.
 
 - react-navigation library why and how
 
 ## Layout
-Bruker Flexbox da den rangerer/ plasserer elementer i forhold til hverandre.
+Bruker Flexbox da den rangerer/plasserer elementer i forhold til hverandre.
 
 ## Storage
 Fordi ingenting av det vi lagrer er sensitive data, trengs det ingen kryptering, og derfor er AsyncStore flott å bruke. I tillegg er AsyncStorage laget slik at data lagres på enheten mellom hver gang appen kjører. Det vil si at hver unike bruker av appen kan lagre og hente sin egne unike data i appen. Både goals, skrittellingsinformasjon og todo-listene blir lagret med AsyncStorage. AsyncStorage er lett å bruke, og man lagrer elementer enkelt ved å bruke setItem(key,value)-funksjonen. Man kan deretter hente frem elementene igjen ved å kalle på getItem(key)-funksjonen.
