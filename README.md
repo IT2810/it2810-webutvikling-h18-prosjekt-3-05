@@ -15,7 +15,7 @@ React Native har mange innebygde komponenter som er lett å ta i bruk. For exemp
 A native mobile app is a smartphone application that is coded in a specific programming language, such as Objective C for iOS or Java for Android operating systems. Native mobile apps provide fast performance and a high degree of reliability. They also have access to a phone's various devices, such as its camera and address book.
 
 ## Components structure
-Vi ville ha en komponentstruktur som var oversiktlig og som gjorde det enkelt å legge til flere sider og komponenter, vi valgte derfor å ha sidene og komponente i ulike mapper. App.js kaller på navigatoren som så navigere mellom de ulike sidene som henter de komponente de trenger for sin fungere.
+Vi ville ha en komponentstruktur som var oversiktlig og som gjorde det enkelt å legge til flere sider og komponenter, vi valgte derfor å ha sidene og komponente i ulike mapper. App.js kaller på navigatoren som så navigere mellom de ulike sidene som henter de komponente de trenger for å fungere.
 
 ## Third-party-libraries and Tools
 
