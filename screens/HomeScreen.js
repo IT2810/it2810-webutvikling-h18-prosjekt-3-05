@@ -13,7 +13,7 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 
-import { FAB, Divider } from 'react-native-paper';
+import { FAB, Title } from 'react-native-paper';
 import Pedometer from '../components/Pedometer';
 import StepCounter from '../components/Pedometer';
 import TodosScreen from './TodosScreen';
@@ -42,27 +42,25 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText} >Some text here </Text>
+          <Title style={styles.getStartedText}> Here are all your goals </Title>
             <View>
               {this.displayGoals()}
-              <StepCounter />
             </View>
           </View>
         </ScrollView>
 
         <View style={styles.tabBarInfoContainer}>
           <FAB
-            icon="delete"
-            label="Clear goals"
-            onPress={() => {
-              AsyncStorage.removeItem('goals');
-              console.log("Emptied tha stuff!")
-            }}
+            icon="add"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
             />
           <FAB
-            icon="add"
-            label="New Goal"
-            onPress={() => this.props.navigation.navigate('CreateGoal')}
+            icon="delete"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => {
+              AsyncStorage.removeItem('goals');
+            }}
             />
         </View>
       </View>
@@ -99,8 +97,8 @@ export default class HomeScreen extends React.Component {
     const {navigate} = this.props.navigation;
     if(!(this.state.goals == [])){
      return  this.state.goals.map(function(goal){
-        return  <View style={styles.fab}>
-                  <FAB icon="assignment-turned-in"
+        return    <FAB icon="assignment-turned-in"
+                  style={styles.fab}
                   color={'#fcfcfc'}
                   label={goal.name}
                   key = {goal.name}
@@ -113,8 +111,6 @@ export default class HomeScreen extends React.Component {
                     })
                   }
                   />
-                  <Divider />
-                </View>
         })
       }
     }

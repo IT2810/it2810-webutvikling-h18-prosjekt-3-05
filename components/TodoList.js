@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderColor: '#bbb'
   },
   incompleteCircle: {
-    borderColor: '#2e78b7'
+    borderColor: '#6200ee'
   },
   rowContainer: {
     display: 'flex',
