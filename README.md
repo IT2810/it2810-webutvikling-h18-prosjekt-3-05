@@ -3,9 +3,7 @@
 ## Personal Information and Motivation Manager
 Personal Information and Motivation Manager er en app som lar en bruker opprette ulike mål, med tilhørende Todo-lister for hvordan målet kan oppnås. I tillegg følger det med en skritteller slik at brukeren kan tracke antall skritt den går og sette daglig mål for hvor mange skritt den vil gå.
 
-![HomeScreen](https://pp.userapi.com/c845419/v845419091/1151d7/WZW1jlJrlLg.jpg)
-![TodosScreen](https://pp.userapi.com/c845419/v845419091/1151e0/RTSiEQ6frCw.jpg)
-![StepsScreen](https://pp.userapi.com/c845419/v845419091/1151e9/sw9g2n68Jwc.jpg)
+![ScreenShots](https://pp.userapi.com/c847218/v847218305/10e082/UWAf-27Fu9w.jpg)
 
 ### Tutorials how to use this amazing app
 npm install
