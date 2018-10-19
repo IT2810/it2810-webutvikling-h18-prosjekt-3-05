@@ -38,7 +38,6 @@ export default class StepsScreen extends React.Component {
     if(!(this.state.stepsGoal === 0)){
       this.state.stepsGoalShouldShow = true;
     }
-    console.log("stepsGoalShouldShow on mount: " + this.state.stepsGoalShouldShow);
   }
 
   componentDidUpdate() {
@@ -47,13 +46,12 @@ export default class StepsScreen extends React.Component {
         this.setState(
           {
             stepsGoal: item
-          }, () => console.log("Steps on mount: " + this.state.stepsGoal))
+          })
       }}
     );
     if(!(this.state.stepsGoal === 0)){
       this.state.stepsGoalShouldShow = true;
     }
-    console.log("stepsGoalShouldShow on update: " + this.state.stepsGoalShouldShow);
   }
 
   async storeItem(key, item) {
@@ -70,7 +68,6 @@ export default class StepsScreen extends React.Component {
     try {
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
-      console.log('Retrieved item, stepsGoal:' + item);
       return item;
     } catch (error) {
       throw error;
@@ -80,7 +77,6 @@ export default class StepsScreen extends React.Component {
   async removeItemValue(key) {
     try {
       await AsyncStorage.removeItem(key);
-      console.log("removed old stepsGoal")
     }
     catch(error) {
       throw error;

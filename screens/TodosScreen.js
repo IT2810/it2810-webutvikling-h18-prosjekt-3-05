@@ -227,13 +227,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   appTitle: {
-    color: '#2e78b7',
-    fontSize: 36,
+    color: '#039cfd',
+    fontSize: 28,
     marginTop: 10,
     marginBottom: 10,
     fontWeight: '300'
-},
-card: {
+  },
+  card: {
     backgroundColor: '#f5f5f0',
     flex: 1,
     width: width-30,
@@ -248,7 +248,7 @@ card: {
   },
   listContainer: {
     alignItems: 'center'
-},
+  },
   cancel: {
     backgroundColor: '#FF0000',
   }

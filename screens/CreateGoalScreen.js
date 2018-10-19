@@ -131,7 +131,7 @@ creating a new list to store future Goal-objects in it ***/
                 <TextInput
                     style={styles.inputForm}
                     mode="outlined"
-                    maxLength = {35}
+                    maxLength = {25}
                     returnKeyType="done"
                     placeholder = "Enter your goal title here."
                     onChangeText={(text) =>
