@@ -21,7 +21,6 @@ exports[`should render corrrectly 1`] = `
       }
     }
   >
-    //TodoList items with (un)checked circles //Circle (show a different design depending on whether the Todo-item is completed or not)
     <View
       accessible={true}
       isTVSelectable={true}
@@ -49,13 +48,12 @@ exports[`should render corrrectly 1`] = `
               "width": 30,
             },
             Object {
-              "borderColor": "#2e78b7",
+              "borderColor": "#6200ee",
             },
           ]
         }
       />
     </View>
-    /*If the pencil-icon is clicked,the isEditing is true, and the text-field turns into an input field.*/
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -74,7 +72,6 @@ exports[`should render corrrectly 1`] = `
       }
     />
   </View>
-  //Options for editing and deleting todoItems /*If the todoItem is being edited, a check-icon will appear for the user to click on when editing is finished. This triggeres the finishedEditing-function */
   <View
     style={
       Object {

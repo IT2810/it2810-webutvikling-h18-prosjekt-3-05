@@ -2,14 +2,18 @@ import Expo from "expo";
 import React from "react";
 import { Pedometer } from "expo";
 import { StyleSheet, Text, View } from "react-native";
+import { ProgressBar, Colors } from "react-native-paper";
 
 // https://docs.expo.io/versions/v30.0.0/sdk/pedometer
 export default class StepCounter extends React.Component {
-    state = {
-        isPedometerAvaliable: "Check",
+  constructor(props){
+    super(props)
+    this.state = {
+        isPedometerAvaliable: false,
         pastSteps: 0,
         currentSteps: 0
     };
+  }
 
   componentDidMount() {
     this._subscribe();
@@ -20,28 +24,19 @@ export default class StepCounter extends React.Component {
   }
 
   _subscribe = () => {
+    // Steps walked since component rendering
     this._subscription = Pedometer.watchStepCount(result => {
       this.setState({
         currentSteps: result.steps
       })
     });
-
-    Pedometer.isAvailableAsync().then(
-      result => {
-        this.setState({
-          isPedometerAvailable: String(result)
-        });
-      },
-      error => {
-        this.setState({
-          isPedometerAvailable: "Pedometer is not avaliable: " + error
-        });
-      }
-    );
-
+    
     const end = new Date();
     const start = new Date();
-    start.setDate(end.getDate() - 1);
+    // Starts counting a new day at 4 am.
+    start.setHours(4);
+    start.setMinutes(0);
+    // Fetches number of steps walked between two dates
     Pedometer.getStepCountAsync(start, end).then(
       result => {
         this.setState({ pastSteps: result.steps });
@@ -64,13 +59,10 @@ export default class StepCounter extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-          Pedometer is avaliable: {this.state.isPedometerAvailable}
-        </Text>
-        <Text style={styles.text}>
-          Steps taken in the last 24 hours: {this.state.pastSteps}
-        </Text>
-        <Text style={styles.text}>Walk! And watch this go up: {this.state.currentSteps}</Text>
+        <Text style={styles.text}>{this.state.pastSteps+this.state.currentSteps} steps today</Text>
+        <ProgressBar progress={(this.state.pastSteps+this.state.currentSteps)/this.props.stepsGoal} color={Colors.red800} />
+        {(this.state.pastSteps+this.state.currentSteps) > this.props.stepsGoal ?
+          <Text style={styles.goalReachedText}>Well done!</Text>: null}
       </View>
     );
   }
@@ -82,8 +74,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#01194f',
     },
     text: {
-        fontSize: 17,
-        color: '#2e78b7'
+      paddingTop: 20,
+      fontSize: 30,
+      color: '#2e78b7',
+      textAlign: 'center'
+    },
+    goalReachedText: {
+      fontSize: 30,
+      color: '#2e78b7',
+      textAlign: 'center',
+      paddingBottom: 15
     }
 });
 
