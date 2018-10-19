@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import StepsScreen from '../screens/StepsScreen';
 import CreateGoalScreen from '../screens/CreateGoalScreen';
 import TodosScreen from '../screens/TodosScreen';
 
@@ -16,7 +16,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'MyGoals',
+  tabBarLabel: 'My Goals',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -29,21 +29,21 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const StepsStack = createStackNavigator({
+  Steps: StepsScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+StepsStack.navigationOptions = {
+  tabBarLabel: 'Steps',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options'}
+      name={Platform.OS === 'ios' ? `ios-walk${focused ? '' : '-outline'}` : 'md-walk'}
     />
   ),
 };
 
 export default createBottomTabNavigator({
   HomeStack,
-  SettingsStack,
+  StepsStack,
 });

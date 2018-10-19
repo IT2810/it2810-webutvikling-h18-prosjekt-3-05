@@ -1,152 +1,164 @@
-  import React from 'react';
+import React from 'react';
 import {
   AsyncStorage,
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-
-
-import { FAB } from 'react-native-paper';
-import Pedometer from '../components/Pedometer';
-import StepCounter from '../components/Pedometer';
+import { FAB, Title, Caption } from 'react-native-paper';
 import TodosScreen from './TodosScreen';
+import LocalImage from '../components/LocalImage';
+import FadeInView from '../components/FadeInView';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      goals: [],
+      goals: []
     };
   }
-
   static navigationOptions = {
     title: 'My Goals',
   };
 
+/*** Listens to changes when a new Goal is added ***/
   componentDidMount() {
     this.props.navigation.addListener("didFocus", () => {
       this.retrieveGoals();
     })
-    this.retrieveGoals();
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.getStartedContainer}>
-            <Text style={styles.getStartedText} >Some text here </Text>
-            <View>
-              {this.displayGoals()}
-              <StepCounter />
-            </View>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <FAB
-            style={styles.fab}
-            color={'#fcfcfc'}
-            icon="delete"
-            label="Clear goals"
-            onPress={() => {
-              AsyncStorage.removeItem('goals');
-              console.log("Emptied tha stuff!")
-            }}
-            />
-          <FAB
-            style={styles.fab}
-            color={'#fcfcfc'}
-            icon="add"
-            label="New Goal"
-            onPress={() => this.props.navigation.navigate('CreateGoal')}
-            />
-        </View>
-      </View>
-    );
-  }
-
+/*** Get the requested item from AsyncStorage and return it as a JS-object for further use  ***/
   async retrieveItem(key) {
     try{
-          console.log('THIS IS YOUR KEY' + key);
-          const retrievedItem =  await AsyncStorage.getItem(key);
-          const item = JSON.parse(retrievedItem);
-          console.log('ITEM ITEM ITEM ' + item)
-          return item;
-        } catch (error) {
-          console.log(error.message);
-        }
-    return
+      const retrievedItem =  await AsyncStorage.getItem(key);
+      const item = JSON.parse(retrievedItem);
+      return item;
+    } catch (error) {
+      console.error(error.message);
+    }
   }
-
+/*** Get a list of all stored Goal-objects from AsyncStorage
+ and update local goals-array(which is declared in the constructor) ***/
   async retrieveGoals() {
     try {
       this.retrieveItem('goals').then((goals) => {
-        console.log("Here are all the" + goals);
         if(goals) {
-          console.log('WHAT ARE GOALS? BABY, DONT HURT NO MORE! PLIS' + goals);
           this.setState({ goals })
         }
-      }).catch((error) => {
-        console.log(error);
       })
     } catch(error) {
       console.log(error.message);
     }
   }
 
-/***Rendering a button for each stored Goal and parsing necessary goal-parameters to TodosScreen ***/
+/*** Delete all the goals from AsyncStorage
+and remove all corresponding goal-buttons from the View ***/
+  async handleDelete() {
+    try{
+      let deleteItems = await AsyncStorage.removeItem('goals');
+      this.setState({
+        goals: []
+      })
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+/*** Returns a button for each stored Goal and parsing necessary goal-parameters to TodosScreen.js ***/
   displayGoals() {
     const {navigate} = this.props.navigation;
     if(!(this.state.goals == [])){
-      console.log(this.state.goals)
-     return  this.state.goals.map(function(goal){
-        return <FAB icon="label"
-                style={styles.fab}
-                color={'#fcfcfc'}
-                label={goal.name}
-                key = {goal.name}
-                onPress={() =>
-                  navigate('ToDo', {
-                    goal_name: goal.name,
-                    startDate: goal.startDate,
-                    deadline: goal.deadline,
-                    goalSteps: goal.goalSteps,
-                  })
-                }
-                />
-        })
-      }
+      // Iterating through all the saved Goal-objects
+      return  this.state.goals.map(function(goal){
+        return  <View key = {goal.name + "1"} style={{width: '70%'}}>
+                  <FAB icon="assignment-turned-in"
+                  style={styles.fab}
+                  label={goal.name}
+                  key = {goal.name + "2"}
+                  onPress={() =>
+                    navigate('ToDo', {
+                      goal_name: goal.name,
+                    })
+                  }
+                  />
+                  <Caption key = {goal.deadline}>Deadline: {goal.deadline}</Caption>
+                  <Caption key = {goal.description + "1"}>Description: </Caption>
+                  <Caption key = {goal.description + "2"}>{goal.description}</Caption>
+                </View>              
+                })
     }
+  }
 
+  render() {
+    return (
+      <View style={styles.container}>
+        <ScrollView style={styles.contentContainer}>
+          <View>
+            <Title style={styles.title}> Kickstart your motivation now! </Title>
+              <View style={styles.logo}>
+                {/*Intro-logo with animation */}
+                <FadeInView>
+                  <LocalImage
+                    source={require('../assets/images/logo.png')}
+                    originalWidth={1276}
+                    originalHeight={1280} />
+                  </FadeInView>
+                  {/* Get-started tips */}
+                  <Caption
+                    style={[styles.getStartedContainer, {marginTop: '8%'}]}>
+                    Add a new Goal by clicking '+' below
+                  </Caption>
+              </View>
+              {/* All the Goals */}
+              <View style={styles.goals}>
+              {this.displayGoals()}
+              </View>
+          </View>
+        </ScrollView>
+
+        {/* Tab Bar with buttons for adding a new Goal and deleting all displayed goals */}
+        <View style={styles.tabBar}>
+          <FAB
+            icon="add"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
+            />
+          <FAB
+            icon="delete"
+            label="delete all goals"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => {
+              this.handleDelete();
+            }}
+            />
+        </View>
+      </View>
+    );
+  }
 }
 
+/*** Styles ***/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#01194f',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
+    marginBottom: '30%',
   },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: '#2e78b7',
-    lineHeight: 24,
+  title: {
+    color: '#039cfd',
     textAlign: 'center',
   },
-  tabBarInfoContainer: {
+  tabBar: {
+    flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -162,13 +174,21 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#01194f',
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: '#ffffff',
-    textAlign: 'center',
+  logo: {
+    alignItems: 'center',
+    marginTop: '7%',
   },
+  goals: {
+    alignItems: 'center',
+    paddingTop: '2%',
+    marginBottom: '10%'
+  },
+  fab: {
+    padding: 1,
+    marginTop: 8,
+  }
 });

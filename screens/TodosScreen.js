@@ -183,6 +183,7 @@ newTodoItemController = textValue => {
         <View style={styles.card}>
           { /* User input field. A new toDo is created when the user clicks on the "done"-key on the keyboard. */ }
           <TextInput
+            underlineColorAndroid='rgba(0,0,0,0)'
             style={styles.input}
             placeholder={'+ Add todo'}
             maxLength={20}

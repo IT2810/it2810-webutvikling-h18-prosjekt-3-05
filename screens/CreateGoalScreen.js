@@ -1,15 +1,18 @@
 import React from 'react';
 import {
   AsyncStorage,
-  Image,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  ScrollView,
+  View,
+  Alert,
+  Keyboard
 } from 'react-native';
 import DatePicker from "react-native-datepicker";
 import moment from 'moment';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FAB, TextInput } from 'react-native-paper';
 
 export default class CreateGoalScreen extends React.Component {
@@ -32,6 +35,27 @@ export default class CreateGoalScreen extends React.Component {
     title: 'Create New Goal',
   };
 
+
+  isGoal() {
+    Alert.alert(
+      'Something went wrong...   :(',
+      'This goal already exists',
+      [{text: 'OK'}],
+      {cancelable: false}
+    )
+  }
+
+  isEmpty() {
+    Alert.alert(
+      'Something went wrong...   :(',
+      'The Title cannot be empty',
+      [{text: 'OK'}],
+      {cancelable: false}
+    )
+  }
+
+  call
+
 /*** Adding a Goal-object into the goal-list and then saving it in storage.
 If the Goal-object is the first one to be added, creating a new list to store future Goal-objects in it ***/
   saveGoal() {
@@ -42,12 +66,27 @@ If the Goal-object is the first one to be added, creating a new list to store fu
                 this.state.description,
                 this.state.currentSteps,
                 this.state.goalSteps);
+
+    var name = this.state.name
+    /*** Validating the input to avoid goal-duplicates ***/
     this.retrieveItem('goals').then((item) => {
       if(Array.isArray(item)) {
-        item.push(goal);
-        this.storeItem('goals', item).then(() => {
-          this.props.navigation.navigate('Home')
-        });
+        check = item.map(function(goal){
+          s = JSON.stringify(goal.name);
+          key = {s};
+          retrievedName = s.replace(/['"]+/g, '');
+          return (retrievedName===name)
+        })
+          if (check.includes(true)) {
+            this.isGoal();
+          } else if(name.trim() == '') {
+              this.isEmpty();
+          } else {
+            item.push(goal);
+            this.storeItem('goals', item).then(() => {
+              this.props.navigation.navigate('Home')
+            });
+          }
       } else {
         var newGoals = [];
         newGoals.push(goal);
@@ -66,63 +105,75 @@ If the Goal-object is the first one to be added, creating a new list to store fu
     }
   }
 
-/*** WHAT DOES THIS ONE ACTUALLY DOES??? ***/
   async retrieveItem(key) {
     try{
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
       return item;
     } catch (error) {
-      console.error(error.message);
+      throw error;
     }
   return
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.inputText}>Title</Text>
-        <TextInput
-            mode="outlined"
-            style={styles.inputForm}
-            placeholder = "Enter your goal title here."
-            onChangeText={(text) =>
-              this.setState({name: text})}
-        />
-        <Text style={styles.inputText}>Description</Text>
-        <TextInput
-            style={styles.inputForm}
-            mode="outlined"
-            placeholder = "Describe your goal."
-            onChangeText={(text) =>
-            this.setState({description: text})}
-        />
-        <Text style={styles.inputText}>Deadline</Text>
-        <DatePicker
-              style={styles.datePicker}
-              date={this.state.deadline}
-              mode="date"
-              format="YYYY-MM-DD"
-              minDate={this.state.currentDate}
-              maxDate="2030-12-31"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              customStyles={{
-                    dateInput: {
-                      marginLeft: 30,
-                    },
-                    dateText: {
-                      color: '#bcbcbc'
-                    },
-                    btnTextText: {
-                      color: '#6200ee'
-                    },
-                    datePicker: {
-                      borderTopColor: '#bcbcbc',
-                    },
-                  }}
-              onDateChange={(date) => {this.setState({deadline: date})}}
+      <View style={styles.container} >
+        <ScrollView style={styles.test} >
+        <KeyboardAwareScrollView viewIsInsideTabBar>
+          <View>
+              <Text style={styles.inputText}>Title</Text>
+              <TextInput
+                  style={styles.inputForm}
+                  mode="outlined"
+                  maxLength = {35}
+                  returnKeyType="done"
+                  placeholder = "Enter your goal title here."
+                  onChangeText={(text) =>
+                      this.setState({name: text})
+                  }
               />
+              <Text style={styles.inputText}>Description</Text>
+              <TextInput
+                  style={[styles.inputForm, {height: 130}, {paddingTop: 8}]}
+                  multiline={true}
+                  mode="outlined"
+                  maxLength = {150}
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
+                  placeholder = "Describe your goal."
+                  onChangeText={(text) =>
+                  this.setState({description: text})}
+              />
+              <Text style={styles.inputText}>Deadline</Text>
+              <DatePicker
+                    style={styles.datePicker}
+                    date={this.state.deadline}
+                    mode="date"
+                    format="YYYY-MM-DD"
+                    minDate={this.state.currentDate}
+                    maxDate="2030-12-31"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                          dateInput: {
+                            marginLeft: 30,
+                          },
+                          dateText: {
+                            color: '#bcbcbc'
+                          },
+                          btnTextText: {
+                            color: '#6200ee'
+                          },
+                          datePicker: {
+                            borderTopColor: '#bcbcbc',
+                          },
+                        }}
+                    onDateChange={(date) => {this.setState({deadline: date})}}
+                    />
+                </View>
+              </KeyboardAwareScrollView>
+        </ScrollView>
         <View style={styles.button}>
           <FAB
             style={styles.fab}
@@ -172,8 +223,7 @@ const styles = StyleSheet.create({
       margin: 8,
       marginLeft: '3%',
       marginRight: '3%',
-      marginBottom: '3%',
-
+      marginBottom: '5%',
     },
     datePicker: {
       width: '94%',
