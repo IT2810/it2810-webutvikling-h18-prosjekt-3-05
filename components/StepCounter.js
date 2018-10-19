@@ -30,7 +30,7 @@ export default class StepCounter extends React.Component {
         currentSteps: result.steps
       })
     });
-    
+
     const end = new Date();
     const start = new Date();
     // Starts counting a new day at 4 am.
@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#01194f',
     },
     text: {
-      paddingTop: 20,
-      fontSize: 30,
-      color: '#2e78b7',
+      paddingTop: 15,
+      fontSize: 25,
+      color: '#039cfd',
       textAlign: 'center'
     },
     goalReachedText: {
-      fontSize: 30,
-      color: '#2e78b7',
+      fontSize: 20,
+      color: '#039cfd',
       textAlign: 'center',
       paddingBottom: 15
     }
