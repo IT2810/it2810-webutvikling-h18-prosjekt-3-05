@@ -1,53 +1,124 @@
-  import React from 'react';
+import React from 'react';
 import {
   AsyncStorage,
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { MonoText } from '../components/StyledText';
-import { FAB, Title } from 'react-native-paper';
-import Pedometer from '../components/StepCounter';
-import StepCounter from '../components/StepCounter';
+import { FAB, Title, Caption } from 'react-native-paper';
 import TodosScreen from './TodosScreen';
+import LocalImage from '../components/LocalImage';
+import FadeInView from '../components/FadeInView';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      goals: [],
+      goals: []
     };
   }
-
   static navigationOptions = {
     title: 'My Goals',
   };
 
+/*** Listens to changes when a new Goal is added ***/
   componentDidMount() {
     this.props.navigation.addListener("didFocus", () => {
       this.retrieveGoals();
     })
-    this.retrieveGoals();
+  }
+
+/*** Get the requested item from AsyncStorage and return it as a JS-object for further use  ***/
+  async retrieveItem(key) {
+    try{
+      const retrievedItem =  await AsyncStorage.getItem(key);
+      const item = JSON.parse(retrievedItem);
+      return item;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+/*** Get a list of all stored Goal-objects from AsyncStorage
+ and update local goals-array(which is declared in the constructor) ***/
+  async retrieveGoals() {
+    try {
+      this.retrieveItem('goals').then((goals) => {
+        if(goals) {
+          this.setState({ goals })
+        }
+      })
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+
+/*** Delete all the goals from AsyncStorage
+and remove all corresponding goal-buttons from the View ***/
+  async handleDelete() {
+    try{
+      let deleteItems = await AsyncStorage.removeItem('goals');
+      this.setState({
+        goals: []
+      })
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+/*** Returns a button for each stored Goal and parsing necessary goal-parameters to TodosScreen.js ***/
+  displayGoals() {
+    const {navigate} = this.props.navigation;
+    if(!(this.state.goals == [])){
+      // Iterating through all the saved Goal-objects
+      return  this.state.goals.map(function(goal){
+        return  <FAB icon="assignment-turned-in"
+                  style={styles.fab}
+                  label={goal.name}
+                  key = {goal.name}
+                  onPress={() =>
+                    navigate('ToDo', {
+                      goal_name: goal.name,
+                    })
+                  }
+                  />
+                })
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.getStartedContainer}>
-          <Title style={styles.getStartedText}> Here are all your goals </Title>
-            <View>
+        <ScrollView style={styles.contentContainer}>
+          <View>
+            <Title style={styles.title}> Kickstart your motivation now! </Title>
+              <View style={styles.logo}>
+                {/*Intro-logo with animation */}
+                <FadeInView>
+                  <LocalImage
+                    source={require('../assets/images/logo.png')}
+                    originalWidth={1276}
+                    originalHeight={1280} />
+                  </FadeInView>
+                  {/* Get-started tips */}
+                  <Caption
+                    style={[styles.getStartedContainer, {marginTop: '8%'}]}>
+                    Add a new Goal by clicking '+' below
+                  </Caption>
+              </View>
+              {/* All the Goals */}
+              <View style={styles.goals}>
               {this.displayGoals()}
-            </View>
+              </View>
           </View>
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
+        {/* Tab Bar with buttons for adding a new Goal and deleting all displayed goals */}
+        <View style={styles.tabBar}>
           <FAB
             icon="add"
             style={[styles.fab, {backgroundColor: '#0e171c'}]}
@@ -55,64 +126,16 @@ export default class HomeScreen extends React.Component {
             />
           <FAB
             icon="delete"
+            label="delete all goals"
             style={[styles.fab, {backgroundColor: '#0e171c'}]}
             onPress={() => {
-              AsyncStorage.removeItem('goals');
+              this.handleDelete();
             }}
             />
         </View>
       </View>
     );
   }
-
-  async retrieveItem(key) {
-    try{
-          const retrievedItem =  await AsyncStorage.getItem(key);
-          const item = JSON.parse(retrievedItem);
-          return item;
-        } catch (error) {
-          console.log(error.message);
-        }
-    return
-  }
-
-  async retrieveGoals() {
-    try {
-      this.retrieveItem('goals').then((goals) => {
-        if(goals) {
-          this.setState({ goals })
-        }
-      }).catch((error) => {
-        console.log(error);
-      })
-    } catch(error) {
-      console.log(error.message);
-    }
-  }
-
-/***Rendering a button for each stored Goal and parsing necessary goal-parameters to TodosScreen ***/
-  displayGoals() {
-    const {navigate} = this.props.navigation;
-    if(!(this.state.goals == [])){
-     return  this.state.goals.map(function(goal){
-        return    <FAB icon="assignment-turned-in"
-                  style={styles.fab}
-                  color={'#fcfcfc'}
-                  label={goal.name}
-                  key = {goal.name}
-                  onPress={() =>
-                    navigate('ToDo', {
-                      goal_name: goal.name,
-                      startDate: goal.startDate,
-                      deadline: goal.deadline,
-                      goalSteps: goal.goalSteps,
-                    })
-                  }
-                  />
-        })
-      }
-    }
-
 }
 
 /*** Styles ***/
@@ -122,19 +145,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#01194f',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
+    marginBottom: '30%',
   },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: '#2e78b7',
-    lineHeight: 24,
+  title: {
+    color: '#039cfd',
     textAlign: 'center',
   },
-  tabBarInfoContainer: {
+  tabBar: {
+    flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -150,16 +169,21 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#01194f',
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: '#ffffff',
-    textAlign: 'center',
+  logo: {
+    alignItems: 'center',
+    marginTop: '7%',
+  },
+  goals: {
+    alignItems: 'center',
+    paddingTop: '2%',
+    marginBottom: '10%',
   },
   fab: {
-    padding: 4,
+    padding: 1,
+    marginTop: 8,
   }
 });
