@@ -17,19 +17,18 @@ Hvis ikke du er kjent med hvordan man bruker Expo, kan du få en fin intro på d
 
 ## React Native
 React Native er et rammeverk som generer "real mobile app" fra JavaScript for flere plattformer istedenfor en hybrid med web view. React Native lar deg lage en mobilapp ved hjelp av JavaScript og React-biblioteket. En av de største fordelene med Native er at den har delt kodebase for iOS og Android. Siden rammeverket er ekstremt populært så støtter det en rekke forskjellige plugins og trdejepartsbibliotek for å utvide funskjonalitetmulgheter til appen din. Det gir utvikleren en bred spekter av løsningsmuligheter.
-React Native har mange innebygde komponenter som er lett å ta i bruk. For exempel <View>- komponentet er brukt for å vise inneholdet på skjermen. Den har også tilgang til mobilens ulike enheter som kamera og skritteller.
+React Native har mange innebygde komponenter som er lett å ta i bruk. For exempel ```<View> ```- komponentet er brukt for å vise inneholdet på skjermen. Den har også tilgang til mobilens ulike enheter som kamera og skritteller.
 
 ## Komponentstruktur
 Vi ville ha en komponentstruktur som var oversiktlig og som gjorde det enkelt å legge til flere sider og komponenter, vi valgte derfor å ha sidene og komponente i ulike mapper. App.js kaller på navigatoren som så navigere mellom de ulike skjermene som henter de komponente de trenger for å fungere.
-Mappestruktur:
-*assets - Alle elementer som bilder og fonts.
-*constants - Komponenter-konstanter er ment å være konstanter som ikke endrer sin tilstand.
-*navigation - Navigasjonen i appen holder vi for seg selv og importerer den i der komponentene krever det.
-*components - Komponenter som viderebrukes på de ulike 'scenene'. Som StepCounter og TodoList
-*screens - Alt det visuelle brukeren interecter med og kan navigere seg i mellom.
+###### Mappestruktur:
+* assets - Alle elementer som bilder og fonts.
+* constants - Komponenter-konstanter er ment å være konstanter som ikke endrer sin tilstand.
+* navigation - Navigasjonen i appen holder vi for seg selv og importerer den i der komponentene krever det.
+* components - Komponenter som viderebrukes på de ulike 'scenene'. Som StepCounter og TodoList
+* screens - Alt det visuelle brukeren interecter med og kan navigere seg i mellom.
 
 ## Tredjeparts biblioteker og verktøy
-I dette prosjketet har vi valgt å bruke følgende verktøy.
 
 ### [Expo](https://expo.io/)
 Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelene er at man kobler til gjennom wi-fi og slipper å bruke USB som i lokal bygging av app og at applikasjonen blir oppdatert umiddelbart etter man lagrer endringer.
@@ -79,7 +78,7 @@ De fleste issues har blitt fordelt på én eller flere av gruppas medlemmer slik
 Vi føler også at vi har fått mer flyt i bruk av Git i dette prosjektet og fikk en god og relevant læringsutbytte.
 
 ## Sources
-* [Pluralsight] (https://www.pluralsight.com/paths/react)
+* [Pluralsight](https://www.pluralsight.com/paths/react)
 * [Your next React Native app will be done with Paper](https://blog.callstack.io/your-next-react-native-app-will-be-done-with-paper-40eebd88be98)
 * [Jest Mock AsyncStorage for react-native](https://www.npmjs.com/package/mock-async-storage)
 * [Testing React Native Apps](https://jestjs.io/docs/en/tutorial-react-native)
