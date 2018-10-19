@@ -1,8 +1,8 @@
 import React from 'react';
 import { Icon } from 'expo';
-
 import Colors from '../constants/Colors';
 
+// Highlighting the navgiation tab you are currently on and fading those you have left
 export default class TabBarIcon extends React.Component {
   render() {
     return (

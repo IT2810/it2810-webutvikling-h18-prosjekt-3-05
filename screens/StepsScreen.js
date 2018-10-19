@@ -7,7 +7,7 @@ import {View,
 } from 'react-native';
 import StepCounter from '../components/StepCounter';
 import LocalImage from '../components/LocalImage';
-import { ProgressBar, Colors, FAB, TextInput } from 'react-native-paper';
+import { FAB, TextInput } from 'react-native-paper';
 
 export default class StepsScreen extends React.Component {
   constructor(){

@@ -57,8 +57,8 @@ Triggeres the updateTodo-function in TodoScreen. ***/
   };
 
   render() {
-    const { isEditing, todoValue } = this.state;
-    const { textValue, id, deleteTodo, isCompleted } = this.props;
+    const { isEditing } = this.state;
+    const { id, deleteTodo, isCompleted } = this.props;
 
     return (
         <View style={styles.container}>
@@ -137,7 +137,7 @@ Triggeres the updateTodo-function in TodoScreen. ***/
 }
 
 /*** Styling ***/
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {

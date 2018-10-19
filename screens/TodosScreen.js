@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   TextInput,
   Dimensions,
   AsyncStorage,
@@ -32,7 +31,6 @@ componentDidMount = () => {
 
 /*** Getteing the name of choosen Goal(which was selected from the HomeScreen) ***/
 getGoalName = () => {
-  const navigation = this.props;
   return s = JSON.stringify(this.props.navigation.state.params.goal_name);
 }
 
@@ -168,7 +166,7 @@ newTodoItemController = textValue => {
 };
 
   render() {
-    const { newTodoItem, dataIsReady, todos } = this.state;
+    const { dataIsReady, todos } = this.state;
     const s = this.getGoalName();
     const goal = s.replace(/['"]+/g, '');
 
@@ -218,7 +216,7 @@ newTodoItemController = textValue => {
 
 /*** Styling.
 Use Demensions.get to get the windowsize of the device being used/showing the apps content. ***/
-const { heigh, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {

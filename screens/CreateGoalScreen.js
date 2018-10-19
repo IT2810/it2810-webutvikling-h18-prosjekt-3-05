@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   AsyncStorage,
-  Platform,
   StyleSheet,
   Text,
-  TouchableOpacity,
   ScrollView,
   View,
   Alert,
@@ -117,7 +115,6 @@ creating a new list to store future Goal-objects in it ***/
     } catch (error) {
       throw error;
     }
-  return
   }
 
   render() {

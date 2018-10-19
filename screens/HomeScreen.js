@@ -4,14 +4,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
-  Animated,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 import { FAB, Title, Caption } from 'react-native-paper';
-import TodosScreen from './TodosScreen';
 import LocalImage from '../components/LocalImage';
 import FadeInView from '../components/FadeInView';
 

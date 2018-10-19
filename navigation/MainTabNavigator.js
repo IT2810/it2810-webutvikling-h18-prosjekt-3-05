@@ -8,13 +8,14 @@ import StepsScreen from '../screens/StepsScreen';
 import CreateGoalScreen from '../screens/CreateGoalScreen';
 import TodosScreen from '../screens/TodosScreen';
 
-
+// Stack to access other screens from home screen
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   CreateGoal: CreateGoalScreen,
   ToDo: TodosScreen,
 });
 
+// Creates the navigation element to home screen in the tab bar
 HomeStack.navigationOptions = {
   tabBarLabel: 'My Goals',
   tabBarIcon: ({ focused }) => (
@@ -33,6 +34,7 @@ const StepsStack = createStackNavigator({
   Steps: StepsScreen,
 });
 
+// Creates the navigation element to steps screen in the tab bar
 StepsStack.navigationOptions = {
   tabBarLabel: 'Steps',
   tabBarIcon: ({ focused }) => (

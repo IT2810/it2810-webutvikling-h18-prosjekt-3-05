@@ -1,5 +1,6 @@
 const tintColor = '#01194f';
 
+// Predefined colors used in Tab Navigation
 export default {
   tintColor,
   tabIconDefault: '#ccc',
