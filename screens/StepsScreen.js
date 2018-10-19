@@ -6,6 +6,7 @@ import {View,
         AsyncStorage
 } from 'react-native';
 import StepCounter from '../components/StepCounter';
+import LocalImage from '../components/LocalImage';
 import { ProgressBar, Colors, FAB, TextInput } from 'react-native-paper';
 
 export default class StepsScreen extends React.Component {
@@ -20,13 +21,13 @@ export default class StepsScreen extends React.Component {
       saveButtonShouldShow: false,
     }
   }
-  
+
   static navigationOptions = {
     title: 'Steps'
   };
 
   componentDidMount() {
-    this.retrieveItem("stepsGoal").then(item => 
+    this.retrieveItem("stepsGoal").then(item =>
       this.setState(
         {
           stepsGoal: item
@@ -96,20 +97,30 @@ export default class StepsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {this.state.stepsGoalShouldShow ? 
+          {this.state.stepsGoalShouldShow ?
             <Text style={styles.textGoal}>Daily Goal: {this.state.stepsGoal}</Text> : null}
-          <Text style={styles.text}> You have walked: </Text>
-          {this.state.stepsGoalShouldShow ? 
-            <StepCounter stepsGoal={this.state.stepsGoal}/> : null}
-          {this.state.newStepsButtonShouldShow ? 
+              <Text style={styles.text}> You have walked: </Text>
+              {this.state.stepsGoalShouldShow ?
+                <StepCounter stepsGoal={this.state.stepsGoal}
+              /> : null}
+          {this.state.newStepsButtonShouldShow ?
             <FAB
               icon="add"
               style={styles.fab}
               label="Set Daily Goal"
-              onPress={()=>{ this.setState({ stepsInputShouldShow: !this.state.stepsInputShouldShow,
-                 newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow, saveButtonShouldShow: !this.state.saveButtonShouldShow})}} /> : null }
-          {this.state.stepsInputShouldShow ? 
-            <TextInput mode="outlined" style={styles.inputForm} keyboardType='numeric' onChangeText={(text) => this.setState({stepsInput: text})} /> : null}
+              onPress={()=>{
+                this.setState({
+                   stepsInputShouldShow: !this.state.stepsInputShouldShow,
+                   newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow,
+                   saveButtonShouldShow: !this.state.saveButtonShouldShow})}}
+            /> : null }
+          {this.state.stepsInputShouldShow ?
+            <TextInput
+              mode="outlined"
+              style={styles.inputForm}
+              keyboardType='numeric'
+              onChangeText={(text) => this.setState({stepsInput: text})}
+            /> : null}
           {this.state.saveButtonShouldShow ?
             <FAB
               icon="save"
@@ -117,15 +128,23 @@ export default class StepsScreen extends React.Component {
               label="Save Daily Goal"
               onPress={()=> this.removeItemValue("stepsGoal")
               .then(this.storeItem("stepsGoal", this.state.stepsInput))
-              .then(this.setState({stepsInputShouldShow: !this.state.stepsInputShouldShow, 
-                saveButtonShouldShow: !this.state.saveButtonShouldShow, newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow}))} /> : null}
+              .then(this.setState({stepsInputShouldShow: !this.state.stepsInputShouldShow,
+                saveButtonShouldShow: !this.state.saveButtonShouldShow,
+                 newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow}))}
+             /> : null}
 
+             <LocalImage
+                  style= {styles.logo}
+                  source={require('../assets/images/runner.png')}
+                  originalWidth={669}
+                  originalHeight={1280} />
         </ScrollView>
       </View>
     );
   }
 }
 
+/*** Styling ***/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -134,10 +153,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   containerText: {
-    paddingTop: 30,
-    fontSize: 17,
-    color: '#2e78b7',
-    lineHeight: 24,
+    paddingTop: 10,
+    color: '#039cfd',
     textAlign: 'center',
   },
   inputForm: {
@@ -148,20 +165,25 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
   },
   text: {
-    paddingTop: 20,
-    fontSize: 30,
-    color: '#2e78b7',
+    paddingTop: 10,
+    fontSize: 20,
+    color: '#039cfd',
     textAlign: 'center'
   },
   textGoal: {
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 15,
-    fontSize: 30,
-    color: '#2e78b7',
+    fontSize: 25,
+    color: '#039cfd',
     textAlign: 'center'
   },
   fab: {
     padding: 4,
     width: '100%',
+    marginBottom: '3%'
+  },
+  logo: {
+    alignItems: 'center',
+    marginTop: '7%',
   }
 });
