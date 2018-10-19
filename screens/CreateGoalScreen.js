@@ -115,7 +115,7 @@ creating a new list to store future Goal-objects in it ***/
       const item = JSON.parse(retrievedItem);
       return item;
     } catch (error) {
-      console.error(error.message);
+      throw error;
     }
   return
   }

@@ -48,20 +48,21 @@ export default class StepCounter extends React.Component {
       }
     );
   };
-// This function will not run when reloading the expo client and cause an error:
-// "Already managing a GoogleApiClient with id 0"
-// This issue will only occur when using the expo client
+  // This function will not run when reloading the expo client and cause an error:
+  // "Already managing a GoogleApiClient with id 0"
+  // This issue will only occur when using the expo client
   _unsubscribe = () => {
     this._subscription && this._subscription.remove();
     this._subscription = null;
   };
-
+  // Renders how many steps you have walked today and a progress bar towards your daily goal
+  // If the goal is reached it will display "Well done!""
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>{this.state.pastSteps+this.state.currentSteps} steps today</Text>
         <ProgressBar progress={(this.state.pastSteps+this.state.currentSteps)/this.props.stepsGoal} color={Colors.red800} />
-        {(this.state.pastSteps+this.state.currentSteps) > this.props.stepsGoal ?
+        {(this.state.pastSteps+this.state.currentSteps) >= this.props.stepsGoal ?
           <Text style={styles.goalReachedText}>Well done!</Text>: null}
       </View>
     );

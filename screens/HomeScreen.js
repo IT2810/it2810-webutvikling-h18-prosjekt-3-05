@@ -76,16 +76,21 @@ and remove all corresponding goal-buttons from the View ***/
     if(!(this.state.goals == [])){
       // Iterating through all the saved Goal-objects
       return  this.state.goals.map(function(goal){
-        return  <FAB icon="assignment-turned-in"
+        return  <View key = {goal.name + "1"} style={{width: '70%'}}>
+                  <FAB icon="assignment-turned-in"
                   style={styles.fab}
                   label={goal.name}
-                  key = {goal.name}
+                  key = {goal.name + "2"}
                   onPress={() =>
                     navigate('ToDo', {
                       goal_name: goal.name,
                     })
                   }
                   />
+                  <Caption key = {goal.deadline}>Deadline: {goal.deadline}</Caption>
+                  <Caption key = {goal.description + "1"}>Description: </Caption>
+                  <Caption key = {goal.description + "2"}>{goal.description}</Caption>
+                </View>              
                 })
     }
   }
@@ -180,7 +185,7 @@ const styles = StyleSheet.create({
   goals: {
     alignItems: 'center',
     paddingTop: '2%',
-    marginBottom: '10%',
+    marginBottom: '10%'
   },
   fab: {
     padding: 1,
