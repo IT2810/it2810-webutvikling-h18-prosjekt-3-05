@@ -15,6 +15,10 @@ React Native har mange innebygde komponenter som er lett å ta i bruk. For exemp
 A native mobile app is a smartphone application that is coded in a specific programming language, such as Objective C for iOS or Java for Android operating systems. Native mobile apps provide fast performance and a high degree of reliability. They also have access to a phone's various devices, such as its camera and address book.
 
 ## Third-party-libraries and Tools
+
+### * [DatePicker](https://www.npmjs.com/package/react-native-datepicker)
+Vi brukte React Native DatePicker for å enkelt kunne legge inn en komponent som lar brukeren velge dato.
+
 ### * [Expo](https://expo.io/)
 Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelene er at man kobler til gjennom wi-fi og slipper å bruke USB som i lokal bygging av app og at applikasjonen blir oppdatert umiddelbart etter man lagrer endringer.
 
@@ -22,12 +26,15 @@ Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelen
 Dette biblioteket tilbyr godt utformet Material Design-klare designkomponenter som fungerer og ser ut nesten likt både på iOS og Android. Komponenter har en universiell utforming som er intuitive for brukeren å ta i bruk og er ment å hjelpe å skape gode brukeropplevelser.  
 
 ### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer) 
-Expo har en implementasjon av et pedometer som bruker Core Motion (iOS) og Google Fit (Android) for å hente brukeren skritt. Med denne metoden fikk vi henter ut
-antall skritt brukeren har gått på begge operativsystemene, bortsett fra et problem som oppstår når man laster applikasjonen i expo på nytt, man får da en
-beskjeden "Already managing a GoogleApiClient with id 0". Dette er antagelig fordi expo ikke håndterer GoogleApiClient på samme måte en en applikasjon som kjører på
-en android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer.
+Expo har en implementasjon av et pedometer som bruker Core Motion (iOS) og Google Fit (Android) for å hente brukeren skritt. Med denne metoden fikk vi hentet ut
+antall skritt brukeren har gått på begge operativsystemene, bortsett fra et problem som oppstår når man laster applikasjonen i expo på nytt, man får da
+beskjeden "Already managing a GoogleApiClient with id 0". Dette er antagelig fordi expo ikke håndterer GoogleApiClient på samme måte en en applikasjon som kjører på android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer.
 
 - react-navigation library why and how
+
+### * [React-Navigation](https://reactnavigation.org/en/
+React-Navigation ga oss flere gode verktøy for å gjøre navigering mellom sidene i applikasjonen. Med dette biblioteket kan man sette opp en stack med sider å navigere
+til, for så å bruke funksjonen navigate for å flytte seg mellom de. Det var også nyttig siden vi hadde behov for en navigasjons-bar med tabs på bunnen av applikasjonen som alltid vises og lar brukeren trykke mellom home screen og steps screen.
 
 ## Layout
 Bruker Flexbox da den rangerer/plasserer elementer i forhold til hverandre.
