@@ -5,15 +5,15 @@ import {View,
         StyleSheet,
         AsyncStorage
 } from 'react-native';
-import StepCounter from '../components/Pedometer';
-import { FAB, TextInput } from 'react-native-paper';
+import StepCounter from '../components/StepCounter';
+import { ProgressBar, Colors, FAB, TextInput } from 'react-native-paper';
 
 export default class StepsScreen extends React.Component {
   constructor(){
     super()
     this.state = {
       stepsInput: 0,
-      stepsGoal: 0,
+      stepsGoal: "",
       stepsGoalShouldShow: false,
       stepsInputShouldShow: false,
       newStepsButtonShouldShow: true,
@@ -26,20 +26,39 @@ export default class StepsScreen extends React.Component {
   };
 
   componentDidMount() {
-    this.stepsGoal = this.retrieveItem("stepsGoal");
-    console.log("stepsGoal on mount: " + this.stepsGoal);
-    if(!(this.stepsGoal === 0 || this.stepsGoal)){
-      this.stepsGoalShouldShow = true;
+    this.retrieveItem("stepsGoal").then(item => 
+      this.setState(
+        {
+          stepsGoal: item
+        }, () => console.log("Steps on mount: " + this.state.stepsGoal))
+    );
+    if(!(this.state.stepsGoal === 0)){
+      this.state.stepsGoalShouldShow = true;
     }
-    console.log("stepsGoalShouldShow: " + this.stepsGoalShouldShow);
+    console.log("stepsGoalShouldShow on mount: " + this.state.stepsGoalShouldShow);
   }
 
   componentDidUpdate() {
-    this.stepsGoal = this.retrieveItem("stepsGoal");
-    console.log("stepsGoal on update: " + this.stepsGoal);
-    if(!(this.stepsGoal === 0 || this.stepsGoal)){
-      this.stepsGoalShouldShow = true;
+    this.retrieveItem("stepsGoal").then(item => {
+      if(this.state.stepsGoal != item){
+        this.setState(
+          {
+            stepsGoal: item
+          }, () => console.log("Steps on mount: " + this.state.stepsGoal))
+      }}
+    );
+    if(!(this.state.stepsGoal === 0)){
+      this.state.stepsGoalShouldShow = true;
     }
+    console.log("stepsGoalShouldShow on update: " + this.state.stepsGoalShouldShow);
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      stepsInputShouldShow: false,
+      newStepsButtonShouldShow: true,
+      saveButtonShouldShow: false,
+    })
   }
 
   async storeItem(key, item) {
@@ -77,24 +96,29 @@ export default class StepsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text style={styles.text}> You have walked: </Text>
-          <StepCounter />
-          <Text style={styles.text}>today</Text>
           {this.state.stepsGoalShouldShow ? 
-            <Text style={styles.text}>Daily Goal: {this.state.stepsGoal}</Text> : null}
+            <Text style={styles.textGoal}>Daily Goal: {this.state.stepsGoal}</Text> : null}
+          <Text style={styles.text}> You have walked: </Text>
+          {this.state.stepsGoalShouldShow ? 
+            <StepCounter stepsGoal={this.state.stepsGoal}/> : null}
           {this.state.newStepsButtonShouldShow ? 
             <FAB
               icon="add"
+              style={styles.fab}
               label="Set Daily Goal"
-              onPress={()=>{ this.setState({ stepsInputShouldShow: !this.state.stepsInputShouldShow, newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow, saveButtonShouldShow: !this.state.saveButtonShouldShow})}}
-              /> : null }
+              onPress={()=>{ this.setState({ stepsInputShouldShow: !this.state.stepsInputShouldShow,
+                 newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow, saveButtonShouldShow: !this.state.saveButtonShouldShow})}} /> : null }
           {this.state.stepsInputShouldShow ? 
-            <TextInput onChangeText={(text) => this.setState({stepsInput: text})} value={this.stepsInput} keyboardType='numeric' /> : null}
+            <TextInput mode="outlined" style={styles.inputForm} keyboardType='numeric' onChangeText={(text) => this.setState({stepsInput: text})} /> : null}
           {this.state.saveButtonShouldShow ?
             <FAB
               icon="save"
+              style={styles.fab}
               label="Save Daily Goal"
-              onPress={()=> this.removeItemValue("stepsGoal").then(this.storeItem("stepsGoal", this.stepsInput)).then(this.setState({stepsInputShouldShow: false, saveButtonShouldShow: false}))} /> : null}
+              onPress={()=> this.removeItemValue("stepsGoal")
+              .then(this.storeItem("stepsGoal", this.state.stepsInput))
+              .then(this.setState({stepsInputShouldShow: !this.state.stepsInputShouldShow, 
+                saveButtonShouldShow: !this.state.saveButtonShouldShow, newStepsButtonShouldShow: !this.state.newStepsButtonShouldShow}))} /> : null}
 
         </ScrollView>
       </View>
@@ -107,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#01194f',
+    alignItems: 'center'
   },
   containerText: {
     paddingTop: 30,
@@ -115,10 +140,28 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
+  inputForm: {
+    width: '94%',
+    margin: 8,
+    marginLeft: '3%',
+    marginRight: '3%',
+    marginBottom: '5%',
+  },
   text: {
     paddingTop: 20,
     fontSize: 30,
     color: '#2e78b7',
     textAlign: 'center'
+  },
+  textGoal: {
+    paddingTop: 20,
+    paddingBottom: 15,
+    fontSize: 30,
+    color: '#2e78b7',
+    textAlign: 'center'
+  },
+  fab: {
+    padding: 4,
+    width: '100%',
   }
 });

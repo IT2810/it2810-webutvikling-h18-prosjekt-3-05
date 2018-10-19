@@ -12,8 +12,8 @@ import {
 import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 import { FAB, Title } from 'react-native-paper';
-import Pedometer from '../components/Pedometer';
-import StepCounter from '../components/Pedometer';
+import Pedometer from '../components/StepCounter';
+import StepCounter from '../components/StepCounter';
 import TodosScreen from './TodosScreen';
 
 export default class HomeScreen extends React.Component {

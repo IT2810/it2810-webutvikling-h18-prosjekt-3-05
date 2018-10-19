@@ -2,14 +2,18 @@ import Expo from "expo";
 import React from "react";
 import { Pedometer } from "expo";
 import { StyleSheet, Text, View } from "react-native";
+import { ProgressBar, Colors } from "react-native-paper";
 
 // https://docs.expo.io/versions/v30.0.0/sdk/pedometer
 export default class StepCounter extends React.Component {
-    state = {
+  constructor(props){
+    super(props)
+    this.state = {
         isPedometerAvaliable: false,
         pastSteps: 0,
         currentSteps: 0
     };
+  }
 
   componentDidMount() {
     this._subscribe();
@@ -55,7 +59,10 @@ export default class StepCounter extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{this.state.pastSteps+this.state.currentSteps} steps</Text>
+        <Text style={styles.text}>{this.state.pastSteps+this.state.currentSteps} steps today</Text>
+        <ProgressBar progress={(this.state.pastSteps+this.state.currentSteps)/this.props.stepsGoal} color={Colors.red800} />
+        {(this.state.pastSteps+this.state.currentSteps) > this.props.stepsGoal ?
+          <Text style={styles.goalReachedText}>Well done!</Text>: null}
       </View>
     );
   }
@@ -68,10 +75,15 @@ const styles = StyleSheet.create({
     },
     text: {
       paddingTop: 20,
-        fontSize: 30,
-        color: '#2e78b7',
-        textAlign: 'center'
-
+      fontSize: 30,
+      color: '#2e78b7',
+      textAlign: 'center'
+    },
+    goalReachedText: {
+      fontSize: 30,
+      color: '#2e78b7',
+      textAlign: 'center',
+      paddingBottom: 15
     }
 });
 
