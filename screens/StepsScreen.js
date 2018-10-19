@@ -25,13 +25,15 @@ export default class StepsScreen extends React.Component {
     title: 'Steps'
   };
 
+  // Retrieves the daily goal you've set previously, does not show your goal if you have no goal set
   componentDidMount() {
     this.retrieveItem("stepsGoal").then(item => 
       this.setState(
         {
           stepsGoal: item
-        }, () => console.log("Steps on mount: " + this.state.stepsGoal))
-    );
+        }
+      )
+    )
     if(!(this.state.stepsGoal === 0)){
       this.state.stepsGoalShouldShow = true;
     }
@@ -51,14 +53,6 @@ export default class StepsScreen extends React.Component {
       this.state.stepsGoalShouldShow = true;
     }
     console.log("stepsGoalShouldShow on update: " + this.state.stepsGoalShouldShow);
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      stepsInputShouldShow: false,
-      newStepsButtonShouldShow: true,
-      saveButtonShouldShow: false,
-    })
   }
 
   async storeItem(key, item) {
@@ -91,7 +85,7 @@ export default class StepsScreen extends React.Component {
       throw error;
     }
   }
-
+  // Renders various components conditionally, and show the users progress towards their goal, if one is set
   render() {
     return (
       <View style={styles.container}>

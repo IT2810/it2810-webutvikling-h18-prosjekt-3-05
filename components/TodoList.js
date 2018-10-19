@@ -77,12 +77,13 @@ Triggeres the updateTodo-function in TodoScreen. ***/
                 autoFocus
                 maxLength={20}
                 maxLine={1}
+                underlineColorAndroid='rgba(0,0,0,0)'
                 style={[
                   styles.text,
                   styles.input,
                   isCompleted ? styles.strikeText : styles.unstrikeText
                 ]}
-                multiline={true}
+                //multiline={true}
                 returnKeyType={'done'}
                 onSubmitEditing={this.finishEditing}
                 onChangeText={this.controlInput}
@@ -91,12 +92,13 @@ Triggeres the updateTodo-function in TodoScreen. ***/
                 /*** If isEditing is not true, the field is a normal text-field displaying the todoItem ***/
                 <Text
                   style={[
+                    style={width: '50%'},
                     styles.text,
                     isCompleted ? styles.strikeText : styles.unstrikeText
                   ]}
                   >
                   {this.state.todoValue}
-              </Text>
+                </Text>
             )
           }
         </View>
@@ -118,12 +120,12 @@ Triggeres the updateTodo-function in TodoScreen. ***/
           each triggering a different function ***/
           <View style={styles.buttons}>
           <TouchableOpacity onPressOut={this.startEditing}>
-            <View style={styles.buttonContainer}>
+            <View style={{flex:1}} style={styles.buttonContainer}>
               <Icon name="edit" style={styles.editText} > </Icon>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPressOut={() => deleteTodo(id)}>
-            <View style={styles.buttonContainer}>
+            <View style={{flex:1}} style={styles.buttonContainer}>
               <Icon name="cross" style={styles.deleteText} > </Icon>
             </View>
           </TouchableOpacity>
@@ -143,7 +145,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#bbb',
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
-    alignItems: 'center'
+    flex: 1,
+    alignItems: 'center',
+
   },
   text: {
     fontWeight: '500',
@@ -167,10 +171,11 @@ const styles = StyleSheet.create({
   rowContainer: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttons: {
     flexDirection: 'row',
+    marginLeft: 10
   },
   buttonContainer: {
     marginVertical: 10,
@@ -179,15 +184,26 @@ const styles = StyleSheet.create({
 },
 finishedText: {
   color: '#33ff33',
-  fontSize: 25
+  fontSize: 25,
+  textAlign: 'right',
+  alignItems: 'flex-end', 
+  justifyContent: 'flex-end'
 },
 editText: {
   color: '#ff9900',
-  fontSize: 20
+  fontSize: 20,
+  textAlign: 'right',
+  alignItems: 'flex-end', 
+  justifyContent: 'flex-end',
+  paddingLeft: 5
+
 },
 deleteText: {
   color: 'red',
-  fontSize: 25
+  fontSize: 25,
+  textAlign: 'right',
+  alignItems: 'flex-end', 
+  justifyContent: 'flex-end'
 },
 strikeText: {
     color: '#bbb',
