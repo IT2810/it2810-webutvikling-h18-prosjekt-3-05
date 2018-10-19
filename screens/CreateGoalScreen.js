@@ -3,10 +3,10 @@ import {
   AsyncStorage,
   Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  ScrollView,
   View
 } from 'react-native';
 import DatePicker from "react-native-datepicker";
@@ -17,7 +17,6 @@ export default class CreateGoalScreen extends React.Component {
   constructor(){
     super()
     const currentDate = new Date();
-
     this.saveGoal = this.saveGoal.bind(this)
 
     this.state = {
@@ -28,62 +27,14 @@ export default class CreateGoalScreen extends React.Component {
       currentSteps: 0,
       goalSteps: 0,
       };
-    /*this.retrieveGoals();*/
   }
 
   static navigationOptions = {
-    title: 'Create Goal',
+    title: 'Create New Goal',
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView>
-          <Text style={styles.containerText}> Hello. Here you can create a new goal! </Text>
-          <Text style={styles.inputText}>Title</Text>
-          <TextInput style={styles.inputForm}
-                onChangeText={(text) =>
-                  this.setState({name: text})}
-                placeholder = "Enter your goal title here."
-               />
-          <Text style={styles.inputText}>Description</Text>
-          <TextInput style={styles.inputForm}
-                onChangeText={(text) =>
-                  this.setState({description: text})}
-                placeholder = "Describe your goal."
-               />
-          <Text style={styles.inputText}>Deadline</Text>
-          <DatePicker
-                style={styles.datePicker}
-                date={this.state.deadline}
-                mode="date"
-                format="YYYY-MM-DD"
-                minDate={this.state.currentDate}
-                maxDate="2030-12-31"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                onDateChange={(date) => {this.setState({deadline: date})}}
-                />
-        </ScrollView>
-        <View style={styles.button}>
-        <FAB
-            icon="delete"
-            label="Clear goals"
-            onPress={() => {
-              AsyncStorage.removeItem('goals');
-              console.log("Emptied tha stuff!")
-            }}
-            />
-          <FAB
-            icon="save"
-            label="Save Goal"
-            onPress={this.saveGoal}
-            />
-        </View>
-      </View>
-    );
-  }
-
+/*** Adding a Goal-object into the goal-list and then saving it in storage.
+If the Goal-object is the first one to be added, creating a new list to store future Goal-objects in it ***/
   saveGoal() {
     var goal = new Goal(
                 this.state.name,
@@ -92,17 +43,39 @@ export default class CreateGoalScreen extends React.Component {
                 this.state.description,
                 this.state.currentSteps,
                 this.state.goalSteps);
+    //return  this.state.goals.map(function(goal);
+
+    /*** console.log('LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOK AT THIS!!!!' + item);
+    let check = item.map(function(goal){
+      s = JSON.stringify(goal.name);
+      var names = [];
+      names.push(s);
+      return names;
+    });
+    console.log('ALL THE NAMES' + names); ***/
+    var name = this.state.name;
+    console.log("state.name before: "+this.state.name)
     this.retrieveItem('goals').then((item) => {
-      console.log(Array.isArray(item));
       if(Array.isArray(item)) {
         item.push(goal);
+        let check = item.map(function(goal){
+          console.log("check: "+check);
+          console.log("goalname:" +goal.name);
+          //
+          
+          console.log("state.name: "+this.state.name);
+          console.log("var name: "+name);
+          s = JSON.stringify(goal.name);
+          var names = [];
+          names.push(s);
+          return names;
+        });
         this.storeItem('goals', item).then(() => {
           this.props.navigation.navigate('Home')
         });
       } else {
         var newGoals = [];
         newGoals.push(goal);
-        console.log(newGoals);
         this.storeItem('goals', newGoals).then(() => {
           this.props.navigation.navigate('Home')
         });
@@ -113,60 +86,90 @@ export default class CreateGoalScreen extends React.Component {
   async storeItem(key, item) {
     try {
         var storeItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-        return storeItem;
     } catch (error) {
-        // Error saving data
-        console.log(error.message);
+        console.error(error.message);
     }
   }
 
-
+/*** WHAT DOES THIS ONE ACTUALLY DOES??? ***/
   async retrieveItem(key) {
     try{
-          const retrievedItem =  await AsyncStorage.getItem(key);
-          console.log(retrievedItem);
-          const item = JSON.parse(retrievedItem);
-          console.log('Thi is retrieved item ' + item);
-          return item;
-        } catch (error) {
-          console.log(error.message);
-        }
-    return
+      const retrievedItem =  await AsyncStorage.getItem(key);
+      const item = JSON.parse(retrievedItem);
+      console.log('HERE ARE ALL THE ITEMS ' + item);
+      return item;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  return
   }
 
+  render() {
+    return (
 
-/*
-  async retrieveGoals() {
-    try {
-      this.retrieveItem('goals').then((goals) => {
-        console.log(goals);
-        if(goals) {
-          this.setState({goals: goals})
-        }
-      }).catch((error) => {
-        console.log(error);
-      })
-    } catch(error) {
-      console.log(error.message);
-    }
+      <View style={styles.container} >
+        <ScrollView style={styles.test} >
+        <Text style={styles.inputText}>Title</Text>
+        <TextInput
+            mode="outlined"
+            maxLength = {35}
+            style={styles.inputForm}
+            placeholder = "Enter your goal title here."
+            onChangeText={(text) =>
+              this.setState({name: text})}
+        />
+        <Text style={styles.inputText}>Description</Text>
+        <TextInput
+            style={[styles.inputForm, {height: 100}, {padding: 10}]}
+            multiline={true}
+            mode="outlined"
+            placeholder = "Describe your goal."
+            onChangeText={(text) =>
+            this.setState({description: text})}
+        />
+        <Text style={styles.inputText}>Deadline</Text>
+        <DatePicker
+              style={styles.datePicker}
+              date={this.state.deadline}
+              mode="date"
+              format="YYYY-MM-DD"
+              minDate={this.state.currentDate}
+              maxDate="2030-12-31"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                    dateInput: {
+                      marginLeft: 30,
+                    },
+                    dateText: {
+                      color: '#bcbcbc'
+                    },
+                    btnTextText: {
+                      color: '#6200ee'
+                    },
+                    datePicker: {
+                      borderTopColor: '#bcbcbc',
+                    },
+                  }}
+              onDateChange={(date) => {this.setState({deadline: date})}}
+              />
+        </ScrollView>
+        <View style={styles.button}>
+          <FAB
+            style={styles.fab}
+            color={'#fcfcfc'}
+            icon="save"
+            label="Save Goal"
+            onPress={this.saveGoal}
+            />
+        </View>
+      </View>
+    );
   }
- /*
-  displayGoals() {
-    const {navigate} = this.props.navigation;
-    if(!(this.state.goals == [])){
-     return  this.state.goals.map(function(goal){
-        console.log('test');
-        return <FAB icon="heart"
-                label={goal.name}
-                onPress={() => navigate('Steps', {name: 'Hello'})
-                }
-                />
-        })
-      }
-    }
-    */
 }
 
+/*** A Goal-object ***/
 var Goal = function (name, startDate, deadline, description, currentSteps, goalSteps) {
   this.name = name;
   this.startDate = startDate;
@@ -183,53 +186,43 @@ var Goal = function (name, startDate, deadline, description, currentSteps, goalS
   }
 }
 
+/*** Styling ***/
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#01194f',
     },
-    containerText: {
-      paddingTop: 30,
-      fontSize: 17,
-      color: '#2e78b7',
-      lineHeight: 24,
-      textAlign: 'center',
+    test:{
+      alignSelf: 'stretch',
     },
     inputText: {
-      marginLeft: 10,
+      paddingTop: '8%',
+      marginLeft: '4%',
+      marginBottom: '1%',
       fontSize: 17,
-      color: '#2e78b7',
+      color: '#039cfd',
     },
     inputForm: {
       width: '94%',
+      margin: 8,
       marginLeft: '3%',
       marginRight: '3%',
-      marginBottom: '3%',
+      marginBottom: '19%',
+
     },
     datePicker: {
       width: '94%',
       marginLeft: '3%',
       marginRight: '3%',
-
+      marginBottom: '3%',
     },
     button: {
       position: 'absolute',
-      bottom: 0,
+      bottom: 7,
       left: 0,
       right: 0,
-      ...Platform.select({
-        ios: {
-          shadowColor: 'black',
-          shadowOffset: { height: -3 },
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
-        },
-        android: {
-          elevation: 20,
-        },
-      }),
       alignItems: 'center',
       backgroundColor: '#01194f',
       paddingVertical: 15,
-    }
+    },
   });
