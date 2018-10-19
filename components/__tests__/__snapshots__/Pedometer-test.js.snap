@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render corrrectly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#01194f",
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "color": "#039cfd",
+        "fontSize": 25,
+        "paddingTop": 15,
+        "textAlign": "center",
+      }
+    }
+  >
+    0
+     steps today
+  </Text>
+  <RCTProgressView
+    color="#c62828"
+    indeterminate={false}
+    progress={NaN}
+    progressTintColor="#c62828"
+    style={
+      Array [
+        Object {
+          "height": 2,
+        },
+        Array [
+          Object {
+            "paddingVertical": 10,
+          },
+          undefined,
+        ],
+      ]
+    }
+    styleAttr="Horizontal"
+    trackTintColor="rgba(198, 40, 40, 0.38)"
+  />
+</View>
+`;

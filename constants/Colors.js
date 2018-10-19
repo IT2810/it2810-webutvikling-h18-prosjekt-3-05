@@ -1,9 +1,10 @@
-const tintColor = '#2f95dc';
+const tintColor = '#01194f';
 
+// Predefined colors used in Tab Navigation
 export default {
   tintColor,
   tabIconDefault: '#ccc',
-  tabIconSelected: tintColor,
+  tabIconSelected: '#01194f',
   tabBar: '#fefefe',
   errorBackground: 'red',
   errorText: '#fff',

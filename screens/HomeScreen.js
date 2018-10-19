@@ -1,152 +1,159 @@
 import React from 'react';
 import {
-  Image,
+  AsyncStorage,
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
-
-import { MonoText } from '../components/StyledText';
+import { FAB, Title, Caption } from 'react-native-paper';
+import LocalImage from '../components/LocalImage';
+import FadeInView from '../components/FadeInView';
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      goals: []
+    };
+  }
   static navigationOptions = {
-    header: null,
+    title: 'My Goals',
   };
+
+/*** Listens to changes when a new Goal is added ***/
+  componentDidMount() {
+    this.props.navigation.addListener("didFocus", () => {
+      this.retrieveGoals();
+    })
+  }
+
+/*** Get the requested item from AsyncStorage and return it as a JS-object for further use  ***/
+  async retrieveItem(key) {
+    try{
+      const retrievedItem =  await AsyncStorage.getItem(key);
+      const item = JSON.parse(retrievedItem);
+      return item;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+/*** Get a list of all stored Goal-objects from AsyncStorage
+ and update local goals-array(which is declared in the constructor) ***/
+  async retrieveGoals() {
+    try {
+      this.retrieveItem('goals').then((goals) => {
+        if(goals) {
+          this.setState({ goals })
+        }
+      })
+    } catch(error) {
+      console.log(error.message);
+    }
+  }
+
+/*** Delete all the goals from AsyncStorage
+and remove all corresponding goal-buttons from the View ***/
+  async handleDelete() {
+    try{
+      let deleteItems = await AsyncStorage.removeItem('goals');
+      this.setState({
+        goals: []
+      })
+    } catch(error) {
+      console.error(error.message);
+    }
+  }
+
+/*** Returns a button for each stored Goal and parsing necessary goal-parameters to TodosScreen.js ***/
+  displayGoals() {
+    const {navigate} = this.props.navigation;
+    if(!(this.state.goals == [])){
+      // Iterating through all the saved Goal-objects
+      return  this.state.goals.map(function(goal){
+        return  <View key = {goal.name + "1"} style={{width: '70%'}}>
+                  <FAB icon="assignment-turned-in"
+                  style={styles.fab}
+                  label={goal.name}
+                  key = {goal.name + "2"}
+                  onPress={() =>
+                    navigate('ToDo', {
+                      goal_name: goal.name,
+                    })
+                  }
+                  />
+                  <Caption key = {goal.deadline}>Deadline: {goal.deadline}</Caption>
+                  <Caption key = {goal.description + "1"}>Description: </Caption>
+                  <Caption key = {goal.description + "2"}>{goal.description}</Caption>
+                </View>              
+                })
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload. Hahaha
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
+        <ScrollView style={styles.contentContainer}>
+          <View>
+            <Title style={styles.title}> Kickstart your motivation now! </Title>
+              <View style={styles.logo}>
+                {/*Intro-logo with animation */}
+                <FadeInView>
+                  <LocalImage
+                    source={require('../assets/images/logo.png')}
+                    originalWidth={1276}
+                    originalHeight={1280} />
+                  </FadeInView>
+                  {/* Get-started tips */}
+                  <Caption
+                    style={[styles.getStartedContainer, {marginTop: '8%'}]}>
+                    Add a new Goal by clicking '+' below
+                  </Caption>
+              </View>
+              {/* All the Goals */}
+              <View style={styles.goals}>
+              {this.displayGoals()}
+              </View>
           </View>
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
+        {/* Tab Bar with buttons for adding a new Goal and deleting all displayed goals */}
+        <View style={styles.tabBar}>
+          <FAB
+            icon="add"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => this.props.navigation.navigate('CreateGoal')}
+            />
+          <FAB
+            icon="delete"
+            label="delete all goals"
+            style={[styles.fab, {backgroundColor: '#0e171c'}]}
+            onPress={() => {
+              this.handleDelete();
+            }}
+            />
         </View>
       </View>
     );
   }
-
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
+/*** Styles ***/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
+    backgroundColor: '#01194f',
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 10,
+    marginBottom: '30%',
   },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
+  title: {
+    color: '#039cfd',
     textAlign: 'center',
   },
-  tabBarInfoContainer: {
+  tabBar: {
+    flexDirection: 'row',
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -162,27 +169,21 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
+    justifyContent: 'center',
+    backgroundColor: '#01194f',
+    paddingVertical: 10,
+  },
+  logo: {
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    marginTop: '7%',
   },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
+  goals: {
     alignItems: 'center',
+    paddingTop: '2%',
+    marginBottom: '10%'
   },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
+  fab: {
+    padding: 1,
+    marginTop: 8,
+  }
 });
