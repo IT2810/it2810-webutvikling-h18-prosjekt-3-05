@@ -1,7 +1,11 @@
 # it2810-webutvikling-h18-prosjekt-3-05
 
 ## Personal Information and Motivation Manager
-Personal Information and Motivation Manager er en app som lar en bruker opprette ulike mål, med tilhørende Todo-lister for hvordan målet kan oppnås. I tillegg følger det med en skritteller slik at brukeren kan tracke antall skritt den går. 
+Personal Information and Motivation Manager er en app som lar en bruker opprette ulike mål, med tilhørende Todo-lister for hvordan målet kan oppnås. I tillegg følger det med en skritteller slik at brukeren kan tracke antall skritt den går og sette daglig mål for hvor mange skritt den vil gå.
+
+![HomeScreen](https://pp.userapi.com/c845419/v845419091/1151d7/WZW1jlJrlLg.jpg)
+![TodosScreen](https://pp.userapi.com/c845419/v845419091/1151e0/RTSiEQ6frCw.jpg)
+![StepsScreen](https://pp.userapi.com/c845419/v845419091/1151e9/sw9g2n68Jwc.jpg)
 
 ### Tutorials how to use this amazing app
 npm install
@@ -21,11 +25,11 @@ Expo er et verktøysett som hjelper å utvikle en app uansett platform. Fordelen
 ### * [React Native Paper](https://callstack.github.io/react-native-paper/index.html)
 Dette biblioteket tilbyr godt utformet Material Design-klare designkomponenter som fungerer og ser ut nesten likt både på iOS og Android. Komponenter har en universiell utforming som er intuitive for brukeren å ta i bruk og er ment å hjelpe å skape gode brukeropplevelser.  
 
-### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer) 
+### * [Expo Pedometer](https://docs.expo.io/versions/latest/sdk/pedometer)
 Expo har en implementasjon av et pedometer som bruker Core Motion (iOS) og Google Fit (Android) for å hente brukeren skritt. Med denne metoden fikk vi henter ut
 antall skritt brukeren har gått på begge operativsystemene, bortsett fra et problem som oppstår når man laster applikasjonen i expo på nytt, man får da en
 beskjeden "Already managing a GoogleApiClient with id 0". Dette er antagelig fordi expo ikke håndterer GoogleApiClient på samme måte en en applikasjon som kjører på
-en android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer.
+en android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer. Det er også en liten delay ved oppdatering av skrittelleren hvis man vil sjekke skritt "live" i bevegelse.
 
 - react-navigation library why and how
 
@@ -62,11 +66,8 @@ De fleste issues har blitt fordelt på én eller flere av gruppas medlemmer slik
 * [Your next React Native app will be done with Paper](https://blog.callstack.io/your-next-react-native-app-will-be-done-with-paper-40eebd88be98)
 * [Jest Mock AsyncStorage for react-native](https://www.npmjs.com/package/mock-async-storage)
 * [Testing React Native Apps](https://jestjs.io/docs/en/tutorial-react-native)
-* [Testing React Apps](https://jestjs.io/docs/en/tutorial-react)
 * [Snapshot Testing](https://jestjs.io/docs/en/snapshot-testing)
 * [Mock Functions](https://jestjs.io/docs/en/mock-functions)
-* [TodoList part 1](https://blog.eduonix.com/mobile-programming/learn-build-react-native-todo-application-part-1/)
-* [TodoList part 2](https://blog.eduonix.com/mobile-programming/learn-build-react-native-todo-application-part-2/)
-* [TodoList part3](https://blog.eduonix.com/mobile-programming/learn-build-react-native-todo-application-part-3/)
+* [TodoList](https://blog.eduonix.com/mobile-programming/learn-build-react-native-todo-application-part-1/)
 * [Icons](https://expo.github.io/vector-icons/)
 * [How to make your React Native app respond gracefully when the keyboard pops up](https://medium.freecodecamp.org/how-to-make-your-react-native-app-respond-gracefully-when-the-keyboard-pops-up-7442c1535580)
