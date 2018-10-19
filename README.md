@@ -14,6 +14,9 @@ React Native har mange innebygde komponenter som er lett å ta i bruk. For exemp
 ### Why Native? (den skal mest sannsynlig slettes, har den bare for å lære noe selv og just in case)
 A native mobile app is a smartphone application that is coded in a specific programming language, such as Objective C for iOS or Java for Android operating systems. Native mobile apps provide fast performance and a high degree of reliability. They also have access to a phone's various devices, such as its camera and address book.
 
+## Components structure
+Vi ville ha en komponentstruktur som var oversiktlig og som gjorde det enkelt å legge til flere sider og komponenter, vi valgte derfor å ha sidene og komponente i ulike mapper. App.js kaller på navigatoren som så navigere mellom de ulike sidene som henter de komponente de trenger for sin fungere.
+
 ## Third-party-libraries and Tools
 
 ### * [DatePicker](https://www.npmjs.com/package/react-native-datepicker)
@@ -29,8 +32,6 @@ Dette biblioteket tilbyr godt utformet Material Design-klare designkomponenter s
 Expo har en implementasjon av et pedometer som bruker Core Motion (iOS) og Google Fit (Android) for å hente brukeren skritt. Med denne metoden fikk vi hentet ut
 antall skritt brukeren har gått på begge operativsystemene, bortsett fra et problem som oppstår når man laster applikasjonen i expo på nytt, man får da
 beskjeden "Already managing a GoogleApiClient with id 0". Dette er antagelig fordi expo ikke håndterer GoogleApiClient på samme måte en en applikasjon som kjører på android ville gjort, dette ser ut til å være et problem flere opplever ved bruk av expo uten å kunne peke nøyaktig på hva som gjør at dette skjer.
-
-- react-navigation library why and how
 
 ### * [React-Navigation](https://reactnavigation.org/en/
 React-Navigation ga oss flere gode verktøy for å gjøre navigering mellom sidene i applikasjonen. Med dette biblioteket kan man sette opp en stack med sider å navigere
