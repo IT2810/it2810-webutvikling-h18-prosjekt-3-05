@@ -105,15 +105,13 @@ If the Goal-object is the first one to be added, creating a new list to store fu
     }
   }
 
-/*** WHAT DOES THIS ONE ACTUALLY DOES??? ***/
   async retrieveItem(key) {
     try{
       const retrievedItem =  await AsyncStorage.getItem(key);
       const item = JSON.parse(retrievedItem);
-      console.log('HERE ARE ALL THE ITEMS ' + item);
       return item;
     } catch (error) {
-      console.error(error.message);
+      throw error;
     }
   return
   }
